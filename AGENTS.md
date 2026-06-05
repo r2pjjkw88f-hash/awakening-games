@@ -1,5 +1,11 @@
 # 项目上下文
 
+## 项目简介
+
+**此刻花开：觉醒之旅** - 一款基于《亲密关系是通往觉醒的门》讲义的剧情选择闯关游戏。
+
+玩家通过6个关卡，经历期待、失望、冲突、觉察，最终找到通往觉醒的门。每关包含剧情场景和多个选择，选择"觉醒视角"可获得成长值，游戏结束后生成专属觉醒报告。
+
 ### 版本技术栈
 
 - **Framework**: Next.js 16 (App Router)
@@ -19,17 +25,49 @@
 │   └── start.sh            # 生产环境启动脚本
 ├── src/
 │   ├── app/                # 页面路由与布局
-│   ├── components/ui/      # Shadcn UI 组件库
+│   │   ├── page.tsx        # 主页面（游戏容器）
+│   │   ├── layout.tsx      # 根布局
+│   │   └── globals.css     # 全局样式
+│   ├── components/
+│   │   ├── ui/             # Shadcn UI 组件库
+│   │   └── game/           # 游戏组件
+│   │       ├── container.tsx  # 游戏容器（状态管理）
+│   │       ├── screens.tsx    # 游戏页面组件
+│   │       └── ui.tsx         # 游戏UI组件
 │   ├── hooks/              # 自定义 Hooks
+│   │   └── use-game-state.ts  # 游戏状态管理
 │   ├── lib/                # 工具库
-│   │   └── utils.ts        # 通用工具函数 (cn)
+│   │   ├── utils.ts        # 通用工具函数 (cn)
+│   │   └── game-data.ts    # 游戏关卡数据
 │   └── server.ts           # 自定义服务端入口
+├── DESIGN.md               # 设计规范
 ├── next.config.ts          # Next.js 配置
 ├── package.json            # 项目依赖管理
 └── tsconfig.json           # TypeScript 配置
 ```
 
 - 项目文件（如 app 目录、pages 目录、components 等）默认初始化到 `src/` 目录下。
+
+## 游戏核心逻辑
+
+### 关卡结构（game-data.ts）
+- **序章**：空空的客厅 - 内心的孤独与匮乏
+- **第一关**：期待落空 - 学会觉察投射
+- **第二关**：冲突时刻 - 从争输赢到看自己
+- **第三关**：情绪真相 - 触碰的是伤口
+- **第四关**：发现自我 - 从"谁爱我"到"我是谁"
+- **终章**：花开时刻 - 生成专属觉醒报告
+
+### 状态管理（use-game-state.ts）
+- `currentLevel`: 当前关卡索引
+- `totalPoints`: 累计成长值
+- `choices`: 玩家选择记录
+- `isComplete`: 游戏是否完成
+
+### 页面流程
+1. **StartScreen** → 开始游戏
+2. **GameScreen** → 选择 → 反馈 → 下一关
+3. **ResultScreen** → 觉醒报告 → 重新开始
 
 ## 包管理规范
 
@@ -63,3 +101,4 @@
 
 - 模板默认预装核心组件库 `shadcn/ui`，位于`src/components/ui/`目录下
 - Next.js 项目**必须默认**采用 shadcn/ui 组件、风格和规范，**除非用户指定用其他的组件和规范。**
+- 游戏UI采用温暖治愈风格，配色参考 `DESIGN.md`

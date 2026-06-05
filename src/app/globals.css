@@ -55,72 +55,73 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+  /* 温暖治愈的配色 */
+  --background: #faf8f5;
+  --foreground: #4a3f3f;
+  --card: #ffffff;
+  --card-foreground: #4a3f3f;
+  --popover: #ffffff;
+  --popover-foreground: #4a3f3f;
+  --primary: #e8b4b8;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f0f8;
+  --secondary-foreground: #4a3f3f;
+  --muted: #f0e8e6;
+  --muted-foreground: #6b5b5b;
+  --accent: #c9b8d4;
+  --accent-foreground: #4a3f3f;
+  --destructive: #e07a5f;
+  --border: #e8e0dd;
+  --input: #e8e0dd;
+  --ring: #e8b4b8;
+  --chart-1: #e8b4b8;
+  --chart-2: #c9b8d4;
+  --chart-3: #e07a5f;
+  --chart-4: #7cb89c;
+  --chart-5: #9b8b8b;
+  --sidebar: #faf8f5;
+  --sidebar-foreground: #4a3f3f;
+  --sidebar-primary: #e8b4b8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f0f8;
+  --sidebar-accent-foreground: #4a3f3f;
+  --sidebar-border: #e8e0dd;
+  --sidebar-ring: #e8b4b8;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #2a2525;
+  --foreground: #faf8f5;
+  --card: #3a3333;
+  --card-foreground: #faf8f5;
+  --popover: #3a3333;
+  --popover-foreground: #faf8f5;
+  --primary: #e8b4b8;
+  --primary-foreground: #4a3f3f;
+  --secondary: #4a3f3f;
+  --secondary-foreground: #faf8f5;
+  --muted: #4a3f3f;
+  --muted-foreground: #b0a0a0;
+  --accent: #c9b8d4;
+  --accent-foreground: #faf8f5;
+  --destructive: #e07a5f;
+  --border: #4a3f3f;
+  --input: #4a3f3f;
+  --ring: #e8b4b8;
+  --chart-1: #e8b4b8;
+  --chart-2: #c9b8d4;
+  --chart-3: #e07a5f;
+  --chart-4: #7cb89c;
+  --chart-5: #9b8b8b;
+  --sidebar: #3a3333;
+  --sidebar-foreground: #faf8f5;
+  --sidebar-primary: #e8b4b8;
+  --sidebar-primary-foreground: #4a3f3f;
+  --sidebar-accent: #4a3f3f;
+  --sidebar-accent-foreground: #faf8f5;
+  --sidebar-border: #4a3f3f;
+  --sidebar-ring: #e8b4b8;
 }
 
 @layer base {
@@ -134,4 +135,37 @@
 
 body {
   @apply font-sans;
+}
+
+/* 自定义动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* 打字机效果 */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* 柔和的过渡 */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
