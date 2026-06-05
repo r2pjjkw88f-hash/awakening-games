@@ -77,11 +77,13 @@ function StartScreen({ onStart }: { onStart: () => void }) {
 function GameScreen({
   level,
   onChoice,
+  onNext,
   totalPoints,
   progress
 }: {
   level: ListenLevel;
   onChoice: (choice: ListenChoice) => void;
+  onNext: () => void;
   totalPoints: number;
   progress: number;
 }) {
@@ -92,12 +94,13 @@ function GameScreen({
     if (selectedChoice) return;
     setSelectedChoice(choice);
     setShowFeedback(true);
+    onChoice(choice);
   };
   
   const handleNext = () => {
-    if (selectedChoice) {
-      onChoice(selectedChoice);
-    }
+    onNext();
+    setSelectedChoice(null);
+    setShowFeedback(false);
   };
   
   return (
@@ -301,20 +304,16 @@ export function ListenGame() {
     if (choice.isAwakening) {
       setTotalPoints(prev => prev + 1);
     }
-    
-    // 延迟切换到下一关或结果
-    setTimeout(() => {
-      if (currentLevelIndex < listenLevels.length - 1) {
-        setCurrentLevelIndex(prev => prev + 1);
-      } else {
-        const newReport = generateListenReport(
-          totalPoints + (choice.isAwakening ? 1 : 0),
-          [...choices, { levelId: level.id, choiceIndex, isAwakening: choice.isAwakening }]
-        );
-        setReport(newReport);
-        setGameState('result');
-      }
-    }, 100);
+  }, [currentLevelIndex]);
+
+  const handleNextLevel = useCallback(() => {
+    if (currentLevelIndex < listenLevels.length - 1) {
+      setCurrentLevelIndex(prev => prev + 1);
+    } else {
+      const newReport = generateListenReport(totalPoints, choices);
+      setReport(newReport);
+      setGameState('result');
+    }
   }, [currentLevelIndex, totalPoints, choices]);
   
   const handleRestart = useCallback(() => {
@@ -347,6 +346,7 @@ export function ListenGame() {
     <GameScreen
       level={currentLevel}
       onChoice={handleChoice}
+      onNext={handleNextLevel}
       totalPoints={totalPoints}
       progress={currentLevelIndex + 1}
     />
