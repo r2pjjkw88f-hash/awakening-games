@@ -459,14 +459,25 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           <p className="text-white/80 text-sm">{mainMessage.subtitle}</p>
         </div>
 
+        {/* 分数展示 */}
+        <div className="bg-gradient-to-br from-[#e8b4b8]/30 to-[#c9b8d4]/30 backdrop-blur-md rounded-2xl p-6 mb-5 border border-white/30 shadow-xl text-center">
+          <p className="text-white/80 text-sm mb-2">你的觉醒分数</p>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="text-5xl font-bold text-white drop-shadow-lg">{state.totalPoints}</span>
+            <span className="text-2xl text-white/60">/ {maxPoints}</span>
+          </div>
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-3xl">{growthStage.icon}</span>
+            <span className="text-lg text-white font-medium">{growthStage.title}</span>
+          </div>
+          <p className="text-white/70 text-xs mt-3">{growthStage.description}</p>
+        </div>
+
         {/* 成长进度环 */}
-        <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 mb-5 border border-white/20 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-xs text-white/70 mb-1">你的成长值</p>
-              <p className="text-3xl font-bold text-white">{state.totalPoints}<span className="text-sm text-white/60 ml-1">/ {maxPoints}</span></p>
-            </div>
-            <div className="relative w-16 h-16">
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl p-5 mb-5 border border-white/20 shadow-lg">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs text-white/70">成长进度</p>
+            <div className="relative w-14 h-14">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                 <path
                   className="text-[#f0e8e6]"
