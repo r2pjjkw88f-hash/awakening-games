@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { parentChildLevels, ParentChildChoice, ParentChildLevel, generateParentChildReport, parentChildInsights } from '@/lib/parent-child-data';
-import { TypewriterText, FloatingParticles, GlowEffect } from './ui';
 
 // 场景图片
 const SCENE_IMAGES = {
@@ -13,6 +12,81 @@ const SCENE_IMAGES = {
   meditation: '/assets/冥想画面.png',
   starry: '/assets/星空版.png',
 };
+
+// 内联组件定义（避免 Turbopack 缓存问题）
+function TypewriterText({ text, speed = 30, onComplete }: { text: string; speed?: number; onComplete?: () => void }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayedText("");
+    setIsComplete(false);
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setDisplayedText(text.slice(0, index + 1));
+        index++;
+      } else {
+        setIsComplete(true);
+        clearInterval(timer);
+        onComplete?.();
+      }
+    }, speed);
+    return () => clearInterval(timer);
+  }, [text, speed, onComplete]);
+
+  return (
+    <span>
+      {displayedText}
+      {!isComplete && <span className="animate-pulse">|</span>}
+    </span>
+  );
+}
+
+function FloatingParticles({ emotion = 'calm' }: { emotion?: 'calm' | 'tense' | 'warm' | 'reflect' }) {
+  const particleColors = {
+    calm: 'bg-pink-200/30',
+    tense: 'bg-orange-200/30',
+    warm: 'bg-yellow-200/30',
+    reflect: 'bg-purple-200/30',
+  };
+
+  const particles = useMemo(() => 
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      left: `${(i * 7) % 100}%`,
+      top: `${(i * 11) % 100}%`,
+      delay: `${i * 0.5}s`,
+      duration: `${4 + (i % 4)}s`,
+    })),
+  []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((particle) => (
+        <div
+          key={particle.id}
+          className={`absolute w-2 h-2 rounded-full animate-float ${particleColors[emotion]}`}
+          style={{
+            left: particle.left,
+            top: particle.top,
+            animationDelay: particle.delay,
+            animationDuration: particle.duration,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function GlowEffect({ color = '#e8b4b8' }: { color?: string }) {
+  return (
+    <div
+      className="absolute w-64 h-64 rounded-full blur-3xl opacity-20 animate-pulse"
+      style={{ backgroundColor: color }}
+    />
+  );
+}
 
 // 游戏状态类型
 interface GameState {
