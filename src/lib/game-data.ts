@@ -12,6 +12,8 @@ export interface Level {
   id: number;
   title: string;
   scene: string; // 场景描述
+  sceneImage: string; // 场景背景图
+  sceneMood: "calm" | "tense" | "hopeful" | "awakening"; // 场景情绪
   narrative: string; // 剧情文字
   choices: Choice[];
   awakeningInsight: string; // 觉醒洞察（通关后显示）
@@ -22,6 +24,8 @@ export const gameLevels: Level[] = [
     id: 0,
     title: "序章：空空的客厅",
     scene: "黄昏",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_93785f00-c65d-42dc-bbf7-e5ebc714ed8f.jpeg?sign=1812173883-88b831a9a2-0-8076c59a62ea17a9943112d3d42f136ce7321c0892f9bffcc8c62924d761a9cf",
+    sceneMood: "calm",
     narrative:
       "你坐在沙发上，看着窗外的夕阳。房间里很安静，安静得让你有些不安。\n\n不知从什么时候开始，你总觉得内心有个空洞。你渴望有一个人能填满它，能让你感觉完整。\n\n你想起了一个人的名字...",
     choices: [
@@ -47,6 +51,8 @@ export const gameLevels: Level[] = [
     id: 1,
     title: "第一关：期待的落空",
     scene: "周末午后",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_3e5061f3-01cc-4ce3-97ec-bf913c90127a.jpeg?sign=1812173885-be3346556f-0-fc2110df418ad281e38867583be82a62fc73a7de17600e2bbb324c7277f3a989",
+    sceneMood: "calm",
     narrative:
       "今天是你们的纪念日。你期待了一整天——也许会有一束花，一顿特别的晚餐，至少...一句祝福。\n\n但直到夜晚降临，他/她只是像平常一样刷着手机，什么都没有说。\n\n你感到胸口一阵发紧...",
     choices: [
@@ -79,6 +85,8 @@ export const gameLevels: Level[] = [
     id: 2,
     title: "第二关：冲突时刻",
     scene: "深夜",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_f37c3aaf-b972-4bbd-8674-78cd46511f4f.jpeg?sign=1812173882-d33c974e46-0-bb7b45e33d23d4bc5ca7d7d27c3888686d9c439148f1475b8c0b366f53137fdf",
+    sceneMood: "tense",
     narrative:
       "吵架了。\n\n起因很小——他/她又忘了洗碗。但你们已经吵了一个小时。\n\n\"你从来不关心这个家！\"\n\"你总是挑我毛病！\"\n\n你们都在争。争什么？",
     choices: [
@@ -104,6 +112,8 @@ export const gameLevels: Level[] = [
     id: 3,
     title: "第三关：情绪的真相",
     scene: "清晨",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_22e813b3-f116-40ef-8206-8cecb9820a44.jpeg?sign=1812173882-9b7ee44dd2-0-b2a3194b2efe5ed0cec680fd92e7e6e031c72943dce6d53cf0853d0a5ff72661",
+    sceneMood: "hopeful",
     narrative:
       "他/她随口说了一句话：\"你最近是不是胖了？\"\n\n只是一句话。陌生人说，你不会在意。但此刻，你感到一阵刺痛，甚至有些愤怒。\n\n三天过去了，那句话还在你心里打转。\n\n为什么会这样？",
     choices: [
@@ -129,6 +139,8 @@ export const gameLevels: Level[] = [
     id: 4,
     title: "第四关：发现自我",
     scene: "一个普通的夜晚",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_4d7112f8-7bc2-48e8-bc22-a4e6c6c983d3.jpeg?sign=1812173882-8beb0b92d6-0-735f9a968ba85ebf75ef3f63a790292bb449c6c4bdf077e7684304ac6be61e30",
+    sceneMood: "awakening",
     narrative:
       "你开始明白了一些事情。\n\n以前，你总在问：他/她爱我吗？他/她会变吗？为什么他/她不能...？\n\n现在，问题开始不一样了。",
     choices: [
@@ -154,6 +166,8 @@ export const gameLevels: Level[] = [
     id: 5,
     title: "终章：花开时刻",
     scene: "此刻",
+    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_fe75a48c-4473-4528-977d-4c9ba3aee3f3.jpeg?sign=1812173883-fbf2913557-0-fc1ef6b782aa4a773cec7fce3e42e840142a97de4e732a56e16e56e1b5c626c6",
+    sceneMood: "awakening",
     narrative:
       "你走过了期待、失望、冲突、觉察。\n\n现在，你站在这里。\n\n你开始明白——关系不是来满足你的，关系是来唤醒你的。\n\n每一次痛苦，都是包装丑陋的礼物。\n\n你准备好打开它了吗？",
     choices: [
