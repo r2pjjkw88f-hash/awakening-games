@@ -142,7 +142,7 @@ function SceneBackground({ level }: { level: Level }) {
 }
 
 // 开始页面
-export function StartScreen({ onStart }: { onStart: () => void }) {
+export function StartScreen({ onStart, onBack }: { onStart: () => void; onBack?: () => void }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -151,6 +151,15 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+      {/* 返回按钮 */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-4 left-4 z-20 p-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+        >
+          <span className="text-white/70 text-sm">← 返回</span>
+        </button>
+      )}
       {/* 背景图片 */}
       <div className="absolute inset-0">
         <Image

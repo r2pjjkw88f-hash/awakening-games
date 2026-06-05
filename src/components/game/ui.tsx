@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useState, useEffect, useMemo } from "react";
 
 interface ProgressProps {
   current: number;
@@ -130,5 +131,101 @@ export function InsightBox({ text }: InsightBoxProps) {
       <p className="text-[#6b5b5b] text-xs mb-2">💡 觉醒洞察</p>
       <p className="text-[#4a3f3f] text-sm leading-relaxed font-medium">{text}</p>
     </div>
+  );
+}
+
+// 打字机效果组件
+interface TypewriterTextProps {
+  text: string;
+  speed?: number;
+  onComplete?: () => void;
+}
+
+export function TypewriterText({ text, speed = 30, onComplete }: TypewriterTextProps) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayedText("");
+    setIsComplete(false);
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setDisplayedText(text.slice(0, index + 1));
+        index++;
+      } else {
+        setIsComplete(true);
+        clearInterval(timer);
+        onComplete?.();
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
+  }, [text, speed, onComplete]);
+
+  return (
+    <span>
+      {displayedText}
+      {!isComplete && <span className="animate-pulse">|</span>}
+    </span>
+  );
+}
+
+// 浮动粒子组件
+interface FloatingParticlesProps {
+  emotion?: 'calm' | 'tense' | 'warm' | 'reflect';
+}
+
+export function FloatingParticles({ emotion = 'calm' }: FloatingParticlesProps) {
+  const particleColors = {
+    calm: 'bg-pink-200/30',
+    tense: 'bg-orange-200/30',
+    warm: 'bg-yellow-200/30',
+    reflect: 'bg-purple-200/30',
+  };
+
+  // 使用 useMemo 预先生成粒子位置，避免在渲染中使用随机数
+  const particles = useMemo(() => 
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      left: `${(i * 7) % 100}%`,
+      top: `${(i * 11) % 100}%`,
+      delay: `${i * 0.5}s`,
+      duration: `${4 + (i % 4)}s`,
+    })),
+  []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((particle) => (
+        <div
+          key={particle.id}
+          className={cn(
+            "absolute w-2 h-2 rounded-full animate-float",
+            particleColors[emotion]
+          )}
+          style={{
+            left: particle.left,
+            top: particle.top,
+            animationDelay: particle.delay,
+            animationDuration: particle.duration,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// 光晕效果组件
+interface GlowEffectProps {
+  color?: string;
+}
+
+export function GlowEffect({ color = '#e8b4b8' }: GlowEffectProps) {
+  return (
+    <div
+      className="absolute w-64 h-64 rounded-full blur-3xl opacity-20 animate-pulse"
+      style={{ backgroundColor: color }}
+    />
   );
 }

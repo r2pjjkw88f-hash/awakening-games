@@ -6,13 +6,23 @@ import { gameLevels } from "@/lib/game-data";
 
 type GamePhase = "start" | "playing" | "result";
 
-export function GameContainer() {
+interface GameContainerProps {
+  onBack?: () => void;
+}
+
+export function GameContainer({ onBack }: GameContainerProps) {
   const [phase, setPhase] = useState<GamePhase>("start");
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
 
   return (
     <>
       {phase === "start" && (
-        <StartScreen onStart={() => setPhase("playing")} />
+        <StartScreen onStart={() => setPhase("playing")} onBack={handleBack} />
       )}
       {phase === "playing" && <GameScreenWrapper onComplete={() => setPhase("result")} />}
       {phase === "result" && (
