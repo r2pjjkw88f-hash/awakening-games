@@ -89,6 +89,7 @@ const insights = [
 ];
 
 export function ParentChildGame({ onBack }: { onBack: () => void }) {
+  const [gameStarted, setGameStarted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -146,6 +147,7 @@ export function ParentChildGame({ onBack }: { onBack: () => void }) {
   };
 
   const handleRestart = () => {
+    setGameStarted(false);
     setCurrentLevel(0);
     setSelectedChoice(null);
     setShowFeedback(false);
@@ -178,7 +180,7 @@ export function ParentChildGame({ onBack }: { onBack: () => void }) {
   }, [choices]);
 
   // 开始页面
-  if (currentLevel === 0 && !showFeedback && selectedChoice === null) {
+  if (!gameStarted) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#1a1625] to-[#2d2640] flex items-center justify-center p-4">
         <div className="max-w-md w-full">
@@ -215,7 +217,7 @@ export function ParentChildGame({ onBack }: { onBack: () => void }) {
           </div>
           
           <button
-            onClick={() => setShowFeedback(false)}
+            onClick={() => setGameStarted(true)}
             className="w-full py-4 bg-gradient-to-r from-pink-400 to-purple-400 text-white font-medium rounded-xl hover:opacity-90 transition-opacity"
           >
             开始观察之旅
