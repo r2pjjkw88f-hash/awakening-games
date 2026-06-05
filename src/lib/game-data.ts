@@ -3,20 +3,24 @@
 export interface Choice {
   id: string;
   text: string;
-  isAwakening: boolean; // 是否为觉醒视角的选择
-  feedback: string; // 选择后的反馈文字
-  growthPoint: number; // 成长值
+  isAwakening: boolean;
+  feedback: string;
+  growthPoint: number;
+  pattern?: string; // 选择反映的关系模式
+  suggestion?: string; // 针对此选择的建议
 }
 
 export interface Level {
   id: number;
   title: string;
-  scene: string; // 场景描述
-  sceneImage: string; // 场景背景图
-  sceneMood: "calm" | "tense" | "hopeful" | "awakening"; // 场景情绪
-  narrative: string; // 剧情文字
+  scene: string;
+  sceneImage: string;
+  sceneMood: "calm" | "tense" | "hopeful" | "awakening";
+  narrative: string;
   choices: Choice[];
-  awakeningInsight: string; // 觉醒洞察（通关后显示）
+  awakeningInsight: string;
+  theme: string; // 关卡主题
+  keywords: string[]; // 关键词标签
 }
 
 export const gameLevels: Level[] = [
@@ -35,6 +39,8 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "你期待着对方来填补你的空虚。这种感觉，你很熟悉。",
         growthPoint: 0,
+        pattern: "向外索取",
+        suggestion: "每天花10分钟独处，问问自己：我此刻真正需要什么？",
       },
       {
         id: "a2",
@@ -42,10 +48,14 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "你开始向内看。这是觉醒的第一步。",
         growthPoint: 10,
+        pattern: "自我觉察",
+        suggestion: "继续保持这份好奇，记录下每次感到\"不够完整\"的时刻。",
       },
     ],
     awakeningInsight:
       "很多时候，我们以为自己在寻找爱，其实是在寻找自己。那个空洞，别人永远填不满。",
+    theme: "内心的匮乏",
+    keywords: ["孤独", "依赖", "自我价值"],
   },
   {
     id: 1,
@@ -62,6 +72,8 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "你的愤怒涌了上来。但愤怒背后，是什么呢？是委屈，是\"我不够重要\"的恐惧。",
         growthPoint: 0,
+        pattern: "情绪宣泄",
+        suggestion: "下次愤怒时，先暂停3秒，问自己：愤怒下面是什么情绪？",
       },
       {
         id: "b2",
@@ -69,6 +81,8 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "你停下来，问自己这个问题。你发现，你在等一个证明——证明你值得被爱。",
         growthPoint: 10,
+        pattern: "深度觉察",
+        suggestion: "练习自我确认：今天做三件让自己感到被爱的小事。",
       },
       {
         id: "b3",
@@ -76,10 +90,14 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "你选择了回避。但那个没有被看见的期待，会在某一天再次浮现。",
         growthPoint: 0,
+        pattern: "逃避回避",
+        suggestion: "试着表达你的需要，用\"我希望...\"代替沉默。",
       },
     ],
     awakeningInsight:
       "期待的本质，是我们把自我价值交给了别人。当对方没有满足期待，我们感到的不仅是失望，而是\"我不够好\"。",
+    theme: "期待与投射",
+    keywords: ["期待", "失望", "自我确认"],
   },
   {
     id: 2,
@@ -96,6 +114,8 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "你赢了这一轮。但关系里没有赢家，只有两个人一起输或一起赢。",
         growthPoint: 0,
+        pattern: "权力斗争",
+        suggestion: "问自己：我要的是赢，还是连接？",
       },
       {
         id: "c2",
@@ -103,10 +123,14 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "你发现，你要的从来不是洗碗，而是\"被看见\"\"被尊重\"。冲突的背后，是一个未满足的需求。",
         growthPoint: 15,
+        pattern: "需求觉察",
+        suggestion: "练习用\"我感到...因为我需要...\"表达自己。",
       },
     ],
     awakeningInsight:
       "关系不是比赛。每一次争吵，其实都在问：你看见我了吗？你愿意理解我吗？但更深层的问题是：你愿意看见自己吗？",
+    theme: "权力与控制",
+    keywords: ["冲突", "控制", "被看见"],
   },
   {
     id: 3,
@@ -123,6 +147,8 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "你把注意力放在对方的错上。但你心里知道，这句话之所以刺痛你，是因为它触到了更深的伤口。",
         growthPoint: 0,
+        pattern: "外归因",
+        suggestion: "这句话触动了你什么？写下你的感受，看看背后是什么信念。",
       },
       {
         id: "d2",
@@ -130,10 +156,14 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "你闭上眼睛，向内看。你发现，那句\"胖了\"触动了你内心深处的\"我不够好\"。那不是他/她给你的，而是你早就有的伤口。",
         growthPoint: 15,
+        pattern: "情绪探索",
+        suggestion: "拥抱那个受伤的自己，告诉她：你已经足够好了。",
       },
     ],
     awakeningInsight:
       "越亲近的人，越容易让我们崩溃。因为关系触碰的是伤口。每一次情绪爆发，都在提醒：这里有东西需要被看见。",
+    theme: "情绪与伤口",
+    keywords: ["情绪", "伤口", "自我接纳"],
   },
   {
     id: 4,
@@ -150,6 +180,8 @@ export const gameLevels: Level[] = [
         isAwakening: false,
         feedback: "旧模式又来了。你把目光投向对方，期待对方改变来满足你。",
         growthPoint: 0,
+        pattern: "控制改变",
+        suggestion: "把注意力收回来：我能改变的是什么？",
       },
       {
         id: "e2",
@@ -157,10 +189,14 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "你开始认识自己的需求、边界和价值。当你越来越认识自己，你就不会再那么害怕失去。",
         growthPoint: 20,
+        pattern: "自我探索",
+        suggestion: "写下你的核心价值观和不可妥协的边界。",
       },
     ],
     awakeningInsight:
       "从\"谁爱我\"到\"我是谁\"——这是关系成长最重要的一步。当你完整了，关系就不再是填补，而是分享。",
+    theme: "自我发现",
+    keywords: ["自我认知", "边界", "价值"],
   },
   {
     id: 5,
@@ -177,24 +213,212 @@ export const gameLevels: Level[] = [
         isAwakening: true,
         feedback: "欢迎来到《此刻花开》。\n\n爱自己会流动。\n成长自己会发生。\n生命自己会回应。\n\n未来60天，我们一起慢慢花开。",
         growthPoint: 30,
+        pattern: "觉醒选择",
+        suggestion: "每天给自己一个拥抱，说：我看见你了，我爱你。",
       },
     ],
     awakeningInsight:
       "很多人来到关系里，是为了寻找爱。而此刻的你，透过关系，找到了自己。这就是觉醒。",
+    theme: "觉醒与整合",
+    keywords: ["觉醒", "整合", "成长"],
   },
 ];
 
 // 成长阶段名称
 export const growthStages = [
-  { min: 0, title: "初入旅程", description: "你刚刚开始这段觉察之旅" },
-  { min: 20, title: "初见曙光", description: "你开始看见一些东西" },
-  { min: 40, title: "觉醒萌芽", description: "觉察的种子在心中发芽" },
-  { min: 60, title: "内在成长", description: "你正在成为更完整的自己" },
-  { min: 80, title: "花开时刻", description: "你已准备好迎接全新的自己" },
+  { 
+    min: 0, 
+    title: "初入旅程", 
+    description: "你刚刚开始这段觉察之旅",
+    color: "#9b8b8b",
+    icon: "🌱"
+  },
+  { 
+    min: 20, 
+    title: "初见曙光", 
+    description: "你开始看见一些东西",
+    color: "#c9b8d4",
+    icon: "🌿"
+  },
+  { 
+    min: 40, 
+    title: "觉醒萌芽", 
+    description: "觉察的种子在心中发芽",
+    color: "#e8b4b8",
+    icon: "🪴"
+  },
+  { 
+    min: 60, 
+    title: "内在成长", 
+    description: "你正在成为更完整的自己",
+    color: "#7cb89c",
+    icon: "🌸"
+  },
+  { 
+    min: 80, 
+    title: "花开时刻", 
+    description: "你已准备好迎接全新的自己",
+    color: "#e07a5f",
+    icon: "🌺"
+  },
 ];
+
+// 关系模式类型
+export const relationshipPatterns = {
+  "向外索取": { 
+    description: "习惯从外部寻求满足感和价值感",
+    growth: "学习从内在找到完整"
+  },
+  "自我觉察": { 
+    description: "能够停下来观察自己的内在状态",
+    growth: "深化这份觉察，形成稳定的自我连接"
+  },
+  "情绪宣泄": { 
+    description: "情绪激动时倾向于直接表达",
+    growth: "学会在表达前先识别和接纳情绪"
+  },
+  "深度觉察": { 
+    description: "能够深入探索行为背后的动机",
+    growth: "将觉察转化为具体的自我确认行动"
+  },
+  "逃避回避": { 
+    description: "面对冲突时倾向于退缩或压抑",
+    growth: "练习温和而坚定地表达真实需求"
+  },
+  "权力斗争": { 
+    description: "在关系中容易陷入对错的争论",
+    growth: "从\"我要赢\"转向\"我们要连接\""
+  },
+  "需求觉察": { 
+    description: "能够识别冲突背后未满足的需求",
+    growth: "学习用\"我需要\"代替\"你应该\""
+  },
+  "外归因": { 
+    description: "倾向于认为是对方造成了自己的痛苦",
+    growth: "探索痛苦背后的自我信念"
+  },
+  "情绪探索": { 
+    description: "愿意深入情绪，探索其来源",
+    growth: "继续拥抱内在的受伤小孩"
+  },
+  "控制改变": { 
+    description: "希望通过改变对方来改善关系",
+    growth: "把焦点从对方转向自己"
+  },
+  "自我探索": { 
+    description: "主动探索自己的需求、边界和价值",
+    growth: "建立稳定的自我认同"
+  },
+  "觉醒选择": { 
+    description: "做出了有意识的成长选择",
+    growth: "持续践行这份觉知"
+  },
+};
+
+// 60天练习建议
+export const practiceSuggestions = {
+  low: [
+    {
+      title: "情绪日记",
+      description: "每天记录一件让你情绪波动的事，问自己：这触碰了我什么？",
+      duration: "10分钟/天",
+    },
+    {
+      title: "独处时光",
+      description: "每天给自己一段独处时间，不带手机，只与自己相处",
+      duration: "15分钟/天",
+    },
+    {
+      title: "觉察暂停",
+      description: "当情绪来临时，先暂停3秒，深呼吸，再回应",
+      duration: "随时练习",
+    },
+  ],
+  medium: [
+    {
+      title: "需求探索",
+      description: "写下你最重要的5个关系需求，区分哪些可以自我满足",
+      duration: "每周一次",
+    },
+    {
+      title: "边界练习",
+      description: "这周试着对一件不想做的事说\"不\"，观察自己的感受",
+      duration: "本周实践",
+    },
+    {
+      title: "自我对话",
+      description: "每天对镜子里的自己说一件欣赏的事",
+      duration: "5分钟/天",
+    },
+  ],
+  high: [
+    {
+      title: "关系复盘",
+      description: "回顾一段重要关系，写下你学到的关于自己的事",
+      duration: "深度练习",
+    },
+    {
+      title: "完整宣言",
+      description: "写下\"我已经足够完整\"，列出10个支持这个信念的理由",
+      duration: "一次完成",
+    },
+    {
+      title: "感恩练习",
+      description: "每天感谢自己的一个选择，无论大小",
+      duration: "持续练习",
+    },
+  ],
+};
 
 // 计算成长阶段
 export function getGrowthStage(points: number) {
   const stages = [...growthStages].reverse();
   return stages.find((stage) => points >= stage.min) || growthStages[0];
+}
+
+// 根据分数获取练习建议
+export function getPracticeSuggestions(points: number) {
+  if (points >= 60) return practiceSuggestions.high;
+  if (points >= 30) return practiceSuggestions.medium;
+  return practiceSuggestions.low;
+}
+
+// 分析玩家的关系模式
+export function analyzePatterns(choices: string[], levels: Level[]) {
+  const patterns: { pattern: string; count: number; suggestions: string[] }[] = [];
+  
+  choices.forEach((choiceId, levelIndex) => {
+    const level = levels[levelIndex];
+    const choice = level?.choices.find((c) => c.id === choiceId);
+    if (choice?.pattern && choice.suggestion) {
+      const existing = patterns.find((p) => p.pattern === choice.pattern);
+      if (existing) {
+        existing.count++;
+        existing.suggestions.push(choice.suggestion);
+      } else {
+        patterns.push({
+          pattern: choice.pattern,
+          count: 1,
+          suggestions: [choice.suggestion],
+        });
+      }
+    }
+  });
+  
+  return patterns.sort((a, b) => b.count - a.count);
+}
+
+// 收集玩家触发的觉醒洞察
+export function collectInsights(choices: string[], levels: Level[]) {
+  const insights: string[] = [];
+  
+  choices.forEach((choiceId, levelIndex) => {
+    const level = levels[levelIndex];
+    const choice = level?.choices.find((c) => c.id === choiceId);
+    if (choice?.isAwakening) {
+      insights.push(level.awakeningInsight);
+    }
+  });
+  
+  return insights;
 }

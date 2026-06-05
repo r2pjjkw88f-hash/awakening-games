@@ -2,7 +2,15 @@
 
 import { useEffect, useState, useRef, useMemo } from "react";
 import Image from "next/image";
-import { gameLevels, type Level } from "@/lib/game-data";
+import {
+  gameLevels,
+  growthStages,
+  relationshipPatterns,
+  analyzePatterns,
+  collectInsights,
+  getPracticeSuggestions,
+  type Level,
+} from "@/lib/game-data";
 import { useGameState } from "@/hooks/use-game-state";
 import {
   Progress,
@@ -338,6 +346,7 @@ export function GameScreen({ onLevelChange }: { onLevelChange?: (level: number) 
 export function ResultScreen({ onRestart }: { onRestart: () => void }) {
   const { state, growthStage, maxPoints, resetGame } = useGameState();
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<"overview" | "journey" | "practice">("overview");
 
   useEffect(() => {
     setMounted(true);
@@ -353,15 +362,54 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
     ? Math.round((state.completedAt - state.startedAt) / 1000 / 60)
     : 0;
 
-  // 计算觉醒选择比例
-  const awakeningCount = state.choices.filter((choiceId, index) => {
+  // 计算觉醒选择
+  const awakeningChoices = state.choices.map((choiceId, index) => {
     const level = gameLevels[index];
     const choice = level?.choices.find((c) => c.id === choiceId);
-    return choice?.isAwakening;
-  }).length;
+    return { level, choice, isAwakening: choice?.isAwakening || false };
+  });
+
+  const awakeningCount = awakeningChoices.filter((a) => a.isAwakening).length;
+
+  // 分析关系模式
+  const patterns = analyzePatterns(state.choices, gameLevels);
+
+  // 收集觉醒洞察
+  const insights = collectInsights(state.choices, gameLevels);
+
+  // 获取练习建议
+  const suggestions = getPracticeSuggestions(state.totalPoints);
+
+  // 成长百分比
+  const growthPercentage = Math.round((state.totalPoints / maxPoints) * 100);
+
+  // 根据分数确定主要建议
+  const getMainMessage = () => {
+    if (state.totalPoints >= 60) {
+      return {
+        title: "觉醒之花已经绽放",
+        subtitle: "你开始真正看见自己了",
+        description: "这份觉察将成为你人生最珍贵的礼物。关系对你来说，不再是填补，而是分享。"
+      };
+    } else if (state.totalPoints >= 30) {
+      return {
+        title: "觉察的种子正在发芽",
+        subtitle: "你正在看见更多",
+        description: "每一次向内看，都是一次成长。继续这份探索，你会发现更多的自己。"
+      };
+    } else {
+      return {
+        title: "旅程刚刚开始",
+        subtitle: "每一次痛苦都是礼物",
+        description: "这是一场漫长的旅程。每一次痛苦，都是包装丑陋的礼物。当你准备好了，继续打开它。"
+      };
+    }
+  };
+
+  const mainMessage = getMainMessage();
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden pb-8">
       {/* 背景渐变 */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#faf8f5] via-[#f5f0f8] to-[#faf0ee]" />
       
@@ -370,61 +418,249 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
       <div className="absolute bottom-40 left-10 w-48 h-48 bg-[#c9b8d4]/20 rounded-full blur-3xl animate-pulse-slow animation-delay-1000" />
 
       <div className={cn(
-        "max-w-md mx-auto p-6 relative z-10 transition-all duration-1000",
+        "max-w-md mx-auto px-6 relative z-10 transition-all duration-1000",
         mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       )}>
-        {/* 标题 */}
-        <div className="text-center mb-8 pt-8">
-          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] flex items-center justify-center shadow-xl shadow-[#e8b4b8]/30 mb-4 animate-float-slow">
-            <span className="text-4xl">🌸</span>
+        {/* 头部 */}
+        <div className="text-center pt-8 pb-6">
+          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] flex items-center justify-center shadow-xl shadow-[#e8b4b8]/30 mb-4 animate-float-slow">
+            <span className="text-3xl">{growthStage.icon}</span>
           </div>
-          <h1 className="text-2xl font-serif text-[#4a3f3f] mb-2">觉醒报告</h1>
-          <p className="text-[#6b5b5b] text-sm">你的亲密关系觉察之旅</p>
+          <h1 className="text-2xl font-serif text-[#4a3f3f] mb-1">{mainMessage.title}</h1>
+          <p className="text-[#6b5b5b] text-sm">{mainMessage.subtitle}</p>
         </div>
 
-        {/* 核心数据 */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        {/* 成长进度环 */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-5 border border-white/50 shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-xs text-[#9b8b8b] mb-1">你的成长值</p>
+              <p className="text-3xl font-bold text-[#e8b4b8]">{state.totalPoints}<span className="text-sm text-[#9b8b8b] ml-1">/ {maxPoints}</span></p>
+            </div>
+            <div className="relative w-16 h-16">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-[#f0e8e6]"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-[#e8b4b8]"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray={`${growthPercentage}, 100`}
+                  strokeLinecap="round"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-[#4a3f3f]">{growthPercentage}%</span>
+            </div>
+          </div>
+          
+          {/* 成长阶段进度条 */}
+          <div className="flex items-center gap-1">
+            {growthStages.map((stage, index) => (
+              <div
+                key={stage.min}
+                className={cn(
+                  "flex-1 h-2 rounded-full transition-all duration-500",
+                  state.totalPoints >= stage.min ? "bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4]" : "bg-[#f0e8e6]"
+                )}
+                style={{ animationDelay: `${index * 100}ms` }}
+              />
+            ))}
+          </div>
+          <div className="flex justify-between mt-2">
+            {growthStages.slice(0, 3).map((stage) => (
+              <span key={stage.min} className="text-[10px] text-[#9b8b8b]">{stage.icon}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* 核心数据卡片 */}
+        <div className="grid grid-cols-3 gap-3 mb-5">
           {[
-            { value: state.totalPoints, label: "成长值", color: "text-[#e8b4b8]" },
-            { value: awakeningCount, label: "觉醒时刻", color: "text-[#c9b8d4]" },
-            { value: duration, label: "分钟", color: "text-[#e07a5f]" },
+            { value: awakeningCount, label: "觉醒时刻", icon: "✨", color: "from-[#e8b4b8] to-[#c9b8d4]" },
+            { value: `${state.choices.length}`, label: "选择历程", icon: "🛤️", color: "from-[#c9b8d4] to-[#9b8b8b]" },
+            { value: `${duration}`, label: "分钟旅程", icon: "⏳", color: "from-[#7cb89c] to-[#e8b4b8]" },
           ].map((item, index) => (
             <div
               key={item.label}
-              className="bg-white/70 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-lg animate-in fade-in slide-in-from-bottom-4"
-              style={{ animationDelay: `${index * 100 + 200}ms` }}
+              className="bg-white/70 backdrop-blur-sm rounded-xl p-3 text-center border border-white/50 shadow-md"
             >
-              <p className={cn("text-2xl font-bold", item.color)}>{item.value}</p>
-              <p className="text-xs text-[#9b8b8b] mt-1">{item.label}</p>
+              <div className={cn("w-8 h-8 mx-auto rounded-full bg-gradient-to-br flex items-center justify-center mb-2", item.color)}>
+                <span className="text-sm">{item.icon}</span>
+              </div>
+              <p className="text-xl font-bold text-[#4a3f3f]">{item.value}</p>
+              <p className="text-[10px] text-[#9b8b8b]">{item.label}</p>
             </div>
           ))}
         </div>
 
-        {/* 成长阶段 */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 mb-6 border border-white/50 shadow-lg animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: "500ms" }}>
-          <p className="text-xs text-[#9b8b8b] mb-2">你的成长阶段</p>
-          <p className="text-lg font-serif text-[#4a3f3f] mb-1">
-            {growthStage.title}
-          </p>
-          <p className="text-sm text-[#6b5b5b]">{growthStage.description}</p>
+        {/* Tab 切换 */}
+        <div className="flex gap-2 mb-5">
+          {[
+            { id: "overview", label: "成长洞察" },
+            { id: "journey", label: "选择回顾" },
+            { id: "practice", label: "60天建议" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
+              className={cn(
+                "flex-1 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-300",
+                activeTab === tab.id
+                  ? "bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] text-white shadow-md"
+                  : "bg-white/50 text-[#6b5b5b] hover:bg-white/70"
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* 觉醒寄语 */}
-        <div className="bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] rounded-2xl p-5 mb-6 border border-[#e8b4b8]/30 shadow-lg animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: "600ms" }}>
-          <p className="text-xs text-[#9b8b8b] mb-2">🌸 觉醒寄语</p>
-          <p className="text-[#4a3f3f] text-sm leading-loose">
-            {state.totalPoints >= 60
-              ? "你已经开始真正看见自己。这份觉察，将成为你人生最珍贵的礼物。关系不再是填补，而是分享。爱自己会流动，成长自己会发生，生命自己会回应。"
-              : state.totalPoints >= 30
-              ? "觉察的种子已经在心中发芽。每一次向内看，都是一次成长。继续这份探索，你会发现更多的自己。"
-              : "这是一场漫长的旅程。每一次痛苦，都是包装丑陋的礼物。当你准备好了，继续打开它。"}
-          </p>
-        </div>
+        {/* Tab 内容 */}
+        {activeTab === "overview" && (
+          <div className="space-y-4">
+            {/* 关系模式分析 */}
+            {patterns.length > 0 && (
+              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
+                <p className="text-xs text-[#9b8b8b] mb-3">🔍 你的关系模式</p>
+                <div className="space-y-3">
+                  {patterns.slice(0, 3).map((p) => {
+                    const patternInfo = relationshipPatterns[p.pattern as keyof typeof relationshipPatterns];
+                    return (
+                      <div key={p.pattern} className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] flex items-center justify-center flex-shrink-0">
+                          <span className="text-sm">{p.count >= 2 ? "💡" : "🌱"}</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-[#4a3f3f]">{p.pattern}</p>
+                          <p className="text-xs text-[#6b5b5b] mt-0.5">
+                            {patternInfo?.description}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* 觉醒洞察收藏 */}
+            {insights.length > 0 && (
+              <div className="bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] rounded-2xl p-5 border border-[#e8b4b8]/30 shadow-lg">
+                <p className="text-xs text-[#9b8b8b] mb-3">💫 你收藏的觉醒洞察</p>
+                <div className="space-y-3">
+                  {insights.slice(0, 3).map((insight, index) => (
+                    <p key={index} className="text-sm text-[#4a3f3f] leading-relaxed pl-3 border-l-2 border-[#e8b4b8]/50">
+                      {insight}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 核心寄语 */}
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
+              <p className="text-xs text-[#9b8b8b] mb-2">🌸 给你的话</p>
+              <p className="text-[#4a3f3f] text-sm leading-loose">{mainMessage.description}</p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "journey" && (
+          <div className="space-y-3">
+            {/* 选择时间线 */}
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
+              <p className="text-xs text-[#9b8b8b] mb-4">📍 你的觉醒旅程</p>
+              <div className="space-y-4">
+                {awakeningChoices.map((item, index) => (
+                  <div key={index} className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                      <div className={cn(
+                        "w-6 h-6 rounded-full flex items-center justify-center text-xs",
+                        item.isAwakening 
+                          ? "bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] text-white" 
+                          : "bg-[#f0e8e6] text-[#9b8b8b]"
+                      )}>
+                        {item.isAwakening ? "✓" : index + 1}
+                      </div>
+                      {index < awakeningChoices.length - 1 && (
+                        <div className="w-0.5 h-8 bg-[#e8e0dd] mt-1" />
+                      )}
+                    </div>
+                    <div className="flex-1 pb-2">
+                      <p className="text-xs text-[#9b8b8b]">{item.level?.scene}</p>
+                      <p className="text-sm font-medium text-[#4a3f3f] mt-0.5">{item.level?.title}</p>
+                      <p className="text-xs text-[#6b5b5b] mt-1 line-clamp-2">
+                        {item.choice?.text}
+                      </p>
+                      {item.isAwakening && (
+                        <span className="inline-block mt-2 text-[10px] px-2 py-0.5 bg-[#f0f7f4] text-[#7cb89c] rounded-full">
+                          ✨ 觉醒选择
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "practice" && (
+          <div className="space-y-3">
+            <div className="bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] rounded-2xl p-5 border border-[#e8b4b8]/30 shadow-lg">
+              <p className="text-xs text-[#9b8b8b] mb-2">📅 未来60天的成长练习</p>
+              <p className="text-sm text-[#4a3f3f] leading-relaxed">
+                根据你的选择，我们为你定制了以下练习。持续实践，你会看见更多改变。
+              </p>
+            </div>
+            
+            {suggestions.map((suggestion, index) => (
+              <div 
+                key={suggestion.title}
+                className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-sm font-bold">{index + 1}</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-[#4a3f3f]">{suggestion.title}</p>
+                      <span className="text-[10px] px-2 py-0.5 bg-[#f5f0f8] text-[#c9b8d4] rounded-full">
+                        {suggestion.duration}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#6b5b5b] mt-2 leading-relaxed">
+                      {suggestion.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* 个性化建议 */}
+            {patterns.length > 0 && patterns[0].suggestions.length > 0 && (
+              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
+                <p className="text-xs text-[#9b8b8b] mb-3">🎯 针对你的一对一建议</p>
+                <p className="text-sm text-[#4a3f3f] leading-relaxed">
+                  {patterns[0].suggestions[0]}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 核心洞见 */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 mb-8 border border-white/50 shadow-lg animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: "700ms" }}>
-          <p className="text-xs text-[#9b8b8b] mb-2">💡 请记住</p>
-          <p className="text-[#4a3f3f] text-sm leading-relaxed font-medium">
+        <div className="mt-6 bg-gradient-to-r from-[#e8b4b8]/10 to-[#c9b8d4]/10 rounded-2xl p-5 border border-[#e8b4b8]/20">
+          <p className="text-center text-xs text-[#9b8b8b] mb-2">💡 请记住</p>
+          <p className="text-center text-[#4a3f3f] text-sm leading-relaxed font-medium">
             关系不是来满足你的，
             <br />
             关系是来唤醒你的。
@@ -435,14 +671,13 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
         <Button
           onClick={handleRestart}
           variant="outline"
-          className="w-full py-6 border-2 border-[#e8b4b8] text-[#e8b4b8] hover:bg-[#faf0ee] rounded-xl text-base font-medium animate-in fade-in slide-in-from-bottom-4"
-          style={{ animationDelay: "800ms" }}
+          className="w-full mt-6 py-6 border-2 border-[#e8b4b8] text-[#e8b4b8] hover:bg-[#faf0ee] rounded-xl text-base font-medium"
         >
           重新开始旅程
         </Button>
 
-        <p className="text-center text-xs text-[#9b8b8b] mt-6">
-          欢迎来到《此刻花开》
+        <p className="text-center text-xs text-[#9b8b8b] mt-6 pb-4">
+          欢迎来到《此刻花开》 · 未来60天，一起慢慢花开
         </p>
       </div>
     </div>
