@@ -151,12 +151,22 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-      {/* 背景渐变动画 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#faf8f5] via-[#f5f0f8] to-[#faf0ee] animate-gradient-shift" />
+      {/* 背景图片 */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://code.coze.cn/api/sandbox/coze_coding/file/proxy?expire_time=-1&file_path=assets%2F%E5%B0%81%E9%9D%A2.png&nonce=88b6a0e9-30b5-44ef-985b-fffdecbb9816&project_id=7647770575405973567&sign=834f0de2fa8fb5bcc281d36811ddc57de2498460c5478ec8b1a4921b29c3face"
+          alt="此刻花开"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* 渐变遮罩 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1625]/40 via-[#2d2640]/30 to-[#1a1625]/60" />
+      </div>
       
       {/* 装饰性光晕 */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#e8b4b8]/20 rounded-full blur-3xl animate-pulse-slow" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#c9b8d4]/20 rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#e8b4b8]/10 rounded-full blur-3xl animate-pulse-slow" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#c9b8d4]/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000" />
 
       <div className={cn(
         "max-w-md w-full text-center relative z-10 transition-all duration-1000",
@@ -175,11 +185,11 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
           </div>
         </div>
 
-        <h1 className="text-4xl font-serif text-[#4a3f3f] mb-3 tracking-wide">此刻花开</h1>
-        <p className="text-xl text-[#6b5b5b] mb-2 font-light">觉醒之旅</p>
+        <h1 className="text-4xl font-serif text-white mb-3 tracking-wide drop-shadow-lg">此刻花开</h1>
+        <p className="text-xl text-white/90 mb-2 font-light drop-shadow">觉醒之旅</p>
 
-        <div className="my-10 p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/60 shadow-lg">
-          <p className="text-[#6b5b5b] text-sm leading-loose">
+        <div className="my-10 p-6 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 shadow-lg">
+          <p className="text-white/90 text-sm leading-loose">
             这是一场关于亲密关系的觉察之旅。
             <br />
             <br />
@@ -188,7 +198,7 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
             最终找到通往觉醒的门。
             <br />
             <br />
-            <span className="text-[#e8b4b8] font-medium">准备好了吗？</span>
+            <span className="text-[#f8d4d7] font-medium">准备好了吗？</span>
           </p>
         </div>
 
@@ -199,7 +209,7 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
           开始旅程
         </Button>
 
-        <p className="mt-10 text-xs text-[#9b8b8b]">
+        <p className="mt-10 text-xs text-white/60">
           基于《亲密关系是通往觉醒的门》讲义
         </p>
       </div>
@@ -410,12 +420,22 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden pb-8">
-      {/* 背景渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#faf8f5] via-[#f5f0f8] to-[#faf0ee]" />
+      {/* 背景图片 */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://code.coze.cn/api/sandbox/coze_coding/file/proxy?expire_time=-1&file_path=assets%2F%E6%98%9F%E7%A9%BA%E7%89%88.png&nonce=4faec912-d062-4d10-88f7-32717aa8c6a8&project_id=7647770575405973567&sign=32281da22a10cceb55b0b3c581b90149d3c2ecb22906bddbf221abd4273b348f"
+          alt="花开时刻"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* 渐变遮罩 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1625]/50 via-[#2d2640]/40 to-[#1a1625]/70" />
+      </div>
       
       {/* 装饰性光晕 */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-[#e8b4b8]/20 rounded-full blur-3xl animate-pulse-slow" />
-      <div className="absolute bottom-40 left-10 w-48 h-48 bg-[#c9b8d4]/20 rounded-full blur-3xl animate-pulse-slow animation-delay-1000" />
+      <div className="absolute top-20 right-10 w-64 h-64 bg-[#e8b4b8]/10 rounded-full blur-3xl animate-pulse-slow" />
+      <div className="absolute bottom-40 left-10 w-48 h-48 bg-[#c9b8d4]/10 rounded-full blur-3xl animate-pulse-slow animation-delay-1000" />
 
       <div className={cn(
         "max-w-md mx-auto px-6 relative z-10 transition-all duration-1000",
@@ -426,16 +446,16 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] flex items-center justify-center shadow-xl shadow-[#e8b4b8]/30 mb-4 animate-float-slow">
             <span className="text-3xl">{growthStage.icon}</span>
           </div>
-          <h1 className="text-2xl font-serif text-[#4a3f3f] mb-1">{mainMessage.title}</h1>
-          <p className="text-[#6b5b5b] text-sm">{mainMessage.subtitle}</p>
+          <h1 className="text-2xl font-serif text-white mb-1 drop-shadow-lg">{mainMessage.title}</h1>
+          <p className="text-white/80 text-sm">{mainMessage.subtitle}</p>
         </div>
 
         {/* 成长进度环 */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-5 border border-white/50 shadow-lg">
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 mb-5 border border-white/20 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-xs text-[#9b8b8b] mb-1">你的成长值</p>
-              <p className="text-3xl font-bold text-[#e8b4b8]">{state.totalPoints}<span className="text-sm text-[#9b8b8b] ml-1">/ {maxPoints}</span></p>
+              <p className="text-xs text-white/70 mb-1">你的成长值</p>
+              <p className="text-3xl font-bold text-white">{state.totalPoints}<span className="text-sm text-white/60 ml-1">/ {maxPoints}</span></p>
             </div>
             <div className="relative w-16 h-16">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -456,7 +476,7 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-[#4a3f3f]">{growthPercentage}%</span>
+              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">{growthPercentage}%</span>
             </div>
           </div>
           
@@ -467,7 +487,7 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
                 key={stage.min}
                 className={cn(
                   "flex-1 h-2 rounded-full transition-all duration-500",
-                  state.totalPoints >= stage.min ? "bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4]" : "bg-[#f0e8e6]"
+                  state.totalPoints >= stage.min ? "bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4]" : "bg-white/20"
                 )}
                 style={{ animationDelay: `${index * 100}ms` }}
               />
@@ -475,7 +495,7 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           </div>
           <div className="flex justify-between mt-2">
             {growthStages.slice(0, 3).map((stage) => (
-              <span key={stage.min} className="text-[10px] text-[#9b8b8b]">{stage.icon}</span>
+              <span key={stage.min} className="text-[10px] text-white/60">{stage.icon}</span>
             ))}
           </div>
         </div>
@@ -489,13 +509,13 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           ].map((item, index) => (
             <div
               key={item.label}
-              className="bg-white/70 backdrop-blur-sm rounded-xl p-3 text-center border border-white/50 shadow-md"
+              className="bg-white/15 backdrop-blur-md rounded-xl p-3 text-center border border-white/20 shadow-md"
             >
               <div className={cn("w-8 h-8 mx-auto rounded-full bg-gradient-to-br flex items-center justify-center mb-2", item.color)}>
                 <span className="text-sm">{item.icon}</span>
               </div>
-              <p className="text-xl font-bold text-[#4a3f3f]">{item.value}</p>
-              <p className="text-[10px] text-[#9b8b8b]">{item.label}</p>
+              <p className="text-xl font-bold text-white">{item.value}</p>
+              <p className="text-[10px] text-white/60">{item.label}</p>
             </div>
           ))}
         </div>
@@ -514,7 +534,7 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
                 "flex-1 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-300",
                 activeTab === tab.id
                   ? "bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] text-white shadow-md"
-                  : "bg-white/50 text-[#6b5b5b] hover:bg-white/70"
+                  : "bg-white/15 text-white/80 hover:bg-white/25"
               )}
             >
               {tab.label}
@@ -527,19 +547,19 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           <div className="space-y-4">
             {/* 关系模式分析 */}
             {patterns.length > 0 && (
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
-                <p className="text-xs text-[#9b8b8b] mb-3">🔍 你的关系模式</p>
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-lg">
+                <p className="text-xs text-white/70 mb-3">🔍 你的关系模式</p>
                 <div className="space-y-3">
                   {patterns.slice(0, 3).map((p) => {
                     const patternInfo = relationshipPatterns[p.pattern as keyof typeof relationshipPatterns];
                     return (
                       <div key={p.pattern} className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#e8b4b8]/30 to-[#c9b8d4]/30 flex items-center justify-center flex-shrink-0">
                           <span className="text-sm">{p.count >= 2 ? "💡" : "🌱"}</span>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-[#4a3f3f]">{p.pattern}</p>
-                          <p className="text-xs text-[#6b5b5b] mt-0.5">
+                          <p className="text-sm font-medium text-white">{p.pattern}</p>
+                          <p className="text-xs text-white/70 mt-0.5">
                             {patternInfo?.description}
                           </p>
                         </div>
@@ -552,11 +572,11 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
 
             {/* 觉醒洞察收藏 */}
             {insights.length > 0 && (
-              <div className="bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] rounded-2xl p-5 border border-[#e8b4b8]/30 shadow-lg">
-                <p className="text-xs text-[#9b8b8b] mb-3">💫 你收藏的觉醒洞察</p>
+              <div className="bg-gradient-to-br from-[#e8b4b8]/20 to-[#c9b8d4]/20 rounded-2xl p-5 border border-white/20 shadow-lg">
+                <p className="text-xs text-white/70 mb-3">💫 你收藏的觉醒洞察</p>
                 <div className="space-y-3">
                   {insights.slice(0, 3).map((insight, index) => (
-                    <p key={index} className="text-sm text-[#4a3f3f] leading-relaxed pl-3 border-l-2 border-[#e8b4b8]/50">
+                    <p key={index} className="text-sm text-white leading-relaxed pl-3 border-l-2 border-[#e8b4b8]/50">
                       {insight}
                     </p>
                   ))}
@@ -565,9 +585,9 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
             )}
 
             {/* 核心寄语 */}
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
-              <p className="text-xs text-[#9b8b8b] mb-2">🌸 给你的话</p>
-              <p className="text-[#4a3f3f] text-sm leading-loose">{mainMessage.description}</p>
+            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-lg">
+              <p className="text-xs text-white/70 mb-2">🌸 给你的话</p>
+              <p className="text-white text-sm leading-loose">{mainMessage.description}</p>
             </div>
           </div>
         )}
@@ -575,8 +595,8 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
         {activeTab === "journey" && (
           <div className="space-y-3">
             {/* 选择时间线 */}
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
-              <p className="text-xs text-[#9b8b8b] mb-4">📍 你的觉醒旅程</p>
+            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-lg">
+              <p className="text-xs text-white/70 mb-4">📍 你的觉醒旅程</p>
               <div className="space-y-4">
                 {awakeningChoices.map((item, index) => (
                   <div key={index} className="flex gap-3">
@@ -585,22 +605,22 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
                         "w-6 h-6 rounded-full flex items-center justify-center text-xs",
                         item.isAwakening 
                           ? "bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] text-white" 
-                          : "bg-[#f0e8e6] text-[#9b8b8b]"
+                          : "bg-white/20 text-white/70"
                       )}>
                         {item.isAwakening ? "✓" : index + 1}
                       </div>
                       {index < awakeningChoices.length - 1 && (
-                        <div className="w-0.5 h-8 bg-[#e8e0dd] mt-1" />
+                        <div className="w-0.5 h-8 bg-white/20 mt-1" />
                       )}
                     </div>
                     <div className="flex-1 pb-2">
-                      <p className="text-xs text-[#9b8b8b]">{item.level?.scene}</p>
-                      <p className="text-sm font-medium text-[#4a3f3f] mt-0.5">{item.level?.title}</p>
-                      <p className="text-xs text-[#6b5b5b] mt-1 line-clamp-2">
+                      <p className="text-xs text-white/60">{item.level?.scene}</p>
+                      <p className="text-sm font-medium text-white mt-0.5">{item.level?.title}</p>
+                      <p className="text-xs text-white/70 mt-1 line-clamp-2">
                         {item.choice?.text}
                       </p>
                       {item.isAwakening && (
-                        <span className="inline-block mt-2 text-[10px] px-2 py-0.5 bg-[#f0f7f4] text-[#7cb89c] rounded-full">
+                        <span className="inline-block mt-2 text-[10px] px-2 py-0.5 bg-[#e8b4b8]/30 text-[#f8d4d7] rounded-full">
                           ✨ 觉醒选择
                         </span>
                       )}
@@ -614,9 +634,9 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
 
         {activeTab === "practice" && (
           <div className="space-y-3">
-            <div className="bg-gradient-to-br from-[#faf0ee] to-[#f5f0f8] rounded-2xl p-5 border border-[#e8b4b8]/30 shadow-lg">
-              <p className="text-xs text-[#9b8b8b] mb-2">📅 未来60天的成长练习</p>
-              <p className="text-sm text-[#4a3f3f] leading-relaxed">
+            <div className="bg-gradient-to-br from-[#e8b4b8]/20 to-[#c9b8d4]/20 rounded-2xl p-5 border border-white/20 shadow-lg">
+              <p className="text-xs text-white/70 mb-2">📅 未来60天的成长练习</p>
+              <p className="text-sm text-white leading-relaxed">
                 根据你的选择，我们为你定制了以下练习。持续实践，你会看见更多改变。
               </p>
             </div>
@@ -624,7 +644,7 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
             {suggestions.map((suggestion, index) => (
               <div 
                 key={suggestion.title}
-                className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg"
+                className="bg-white/15 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-lg"
               >
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8b4b8] to-[#c9b8d4] flex items-center justify-center flex-shrink-0">
@@ -632,12 +652,12 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-[#4a3f3f]">{suggestion.title}</p>
-                      <span className="text-[10px] px-2 py-0.5 bg-[#f5f0f8] text-[#c9b8d4] rounded-full">
+                      <p className="text-sm font-medium text-white">{suggestion.title}</p>
+                      <span className="text-[10px] px-2 py-0.5 bg-white/20 text-white/80 rounded-full">
                         {suggestion.duration}
                       </span>
                     </div>
-                    <p className="text-xs text-[#6b5b5b] mt-2 leading-relaxed">
+                    <p className="text-xs text-white/70 mt-2 leading-relaxed">
                       {suggestion.description}
                     </p>
                   </div>
@@ -647,9 +667,9 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
 
             {/* 个性化建议 */}
             {patterns.length > 0 && patterns[0].suggestions.length > 0 && (
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 shadow-lg">
-                <p className="text-xs text-[#9b8b8b] mb-3">🎯 针对你的一对一建议</p>
-                <p className="text-sm text-[#4a3f3f] leading-relaxed">
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-lg">
+                <p className="text-xs text-white/70 mb-3">🎯 针对你的一对一建议</p>
+                <p className="text-sm text-white leading-relaxed">
                   {patterns[0].suggestions[0]}
                 </p>
               </div>
@@ -658,9 +678,9 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
         )}
 
         {/* 核心洞见 */}
-        <div className="mt-6 bg-gradient-to-r from-[#e8b4b8]/10 to-[#c9b8d4]/10 rounded-2xl p-5 border border-[#e8b4b8]/20">
-          <p className="text-center text-xs text-[#9b8b8b] mb-2">💡 请记住</p>
-          <p className="text-center text-[#4a3f3f] text-sm leading-relaxed font-medium">
+        <div className="mt-6 bg-gradient-to-r from-[#e8b4b8]/20 to-[#c9b8d4]/20 rounded-2xl p-5 border border-white/20">
+          <p className="text-center text-xs text-white/70 mb-2">💡 请记住</p>
+          <p className="text-center text-white text-sm leading-relaxed font-medium">
             关系不是来满足你的，
             <br />
             关系是来唤醒你的。
@@ -671,12 +691,12 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
         <Button
           onClick={handleRestart}
           variant="outline"
-          className="w-full mt-6 py-6 border-2 border-[#e8b4b8] text-[#e8b4b8] hover:bg-[#faf0ee] rounded-xl text-base font-medium"
+          className="w-full mt-6 py-6 border-2 border-white/30 text-white hover:bg-white/10 rounded-xl text-base font-medium"
         >
           重新开始旅程
         </Button>
 
-        <p className="text-center text-xs text-[#9b8b8b] mt-6 pb-4">
+        <p className="text-center text-xs text-white/50 mt-6 pb-4">
           欢迎来到《此刻花开》 · 未来60天，一起慢慢花开
         </p>
       </div>
