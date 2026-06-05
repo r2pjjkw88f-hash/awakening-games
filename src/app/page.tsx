@@ -4,8 +4,9 @@ import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { GameContainer } from '@/components/game/container';
 import { ParentChildGame } from '@/components/game/parent-child-game';
+import { ListenGame } from '@/components/game/listen-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -122,6 +123,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 倾听孩子游戏 */}
+            <button
+              onClick={() => onSelect('listen')}
+              className="w-full text-left p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/20 hover:border-[#f9a8d4]/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">👂</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-[#f9a8d4] transition-colors">
+                    倾听孩子：90%的时间，只是倾听
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    真正的倾听，不是解决问题，而是让孩子感觉"我被听见了"。放下手机、保持眼神、接纳情绪。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">6关</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">情景练习</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">倾听报告</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -155,6 +182,10 @@ export default function Home() {
 
   if (gameType === 'parent-child') {
     return <ParentChildGame onBack={handleBack} />;
+  }
+
+  if (gameType === 'listen') {
+    return <ListenGame />;
   }
 
   return null;
