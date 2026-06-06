@@ -10,8 +10,9 @@ import { EmotionGame } from '@/components/game/emotion-game';
 import { ParentTypeGame } from '@/components/game/parent-type-game';
 import { BehaviorGame } from '@/components/game/behavior-game';
 import AwakeningJourneyGame from '@/components/game/awakening-journey-game';
+import BelongingGame from '@/components/game/belonging-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -284,6 +285,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 归属感与特殊性游戏 */}
+            <button
+              onClick={() => onSelect('belonging')}
+              className="w-full text-left p-5 bg-gradient-to-r from-teal-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl border border-teal-400/30 hover:from-teal-500/30 hover:to-cyan-500/30 hover:border-teal-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🏠</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-teal-300 transition-colors">
+                    归属与特殊：找回自己
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    七关觉醒之旅，探索童年的回音、接纳之岛、懂事的面具...找回真正属于自己的归属感。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-teal-300/60 bg-teal-400/20 px-2 py-1 rounded">7关</span>
+                    <span className="text-xs text-teal-300/60 bg-teal-400/20 px-2 py-1 rounded">XP系统</span>
+                    <span className="text-xs text-teal-300/60 bg-teal-400/20 px-2 py-1 rounded">隐藏任务</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -302,7 +329,7 @@ export default function Home() {
   // 监听URL hash，支持直接链接访问特定游戏
   useEffect(() => {
     const hash = window.location.hash.slice(1); // 移除 # 号
-    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey'].includes(hash)) {
+    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey', 'belonging'].includes(hash)) {
       setGameType(hash as GameType);
     }
   }, []);
@@ -351,6 +378,10 @@ export default function Home() {
 
   if (gameType === 'awakening-journey') {
     return <AwakeningJourneyGame />;
+  }
+
+  if (gameType === 'belonging') {
+    return <BelongingGame onBack={handleBack} />;
   }
 
   return null;
