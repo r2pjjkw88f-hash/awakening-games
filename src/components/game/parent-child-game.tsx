@@ -240,12 +240,30 @@ export function ParentChildGame({ onBack }: { onBack: () => void }) {
           </div>
           
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6">
-            {/* 核心数据 */}
+            {/* 核心数据 - 进度环 */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-pink-400/30 to-purple-400/30 mb-4">
-                <div className="text-center">
+              <div className="relative w-32 h-32 mx-auto mb-4">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    className="text-white/20"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className="text-pink-400"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray={`${reportData.percentage}, 100`}
+                    strokeLinecap="round"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <div className="text-3xl font-bold text-white">{reportData.percentage}%</div>
-                  <div className="text-white/60 text-sm">觉察度</div>
+                  <div className="text-white/60 text-xs">觉察度</div>
                 </div>
               </div>
               <div className="text-lg text-white font-medium">{reportData.stage}</div>

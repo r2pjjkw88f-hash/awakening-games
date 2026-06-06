@@ -161,7 +161,9 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
   // 结果页面
   if (gameState === 'result') {
     const report = generateEmotionReport(totalPoints, choices);
-    const randomInsight = emotionInsights[Math.floor(Math.random() * emotionInsights.length)];
+    // 使用分数取模，避免渲染中使用随机数
+    const insightIndex = totalPoints % emotionInsights.length;
+    const selectedInsight = emotionInsights[insightIndex];
     
     return (
       <div className="min-h-screen p-6 relative overflow-hidden"
@@ -176,20 +178,37 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
             <h2 className="text-xl font-bold text-amber-900">你的情绪觉察报告</h2>
           </div>
 
-          {/* 分数卡片 */}
+          {/* 分数卡片 - 进度环 */}
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-4 text-center">
-            <div className="text-5xl font-bold text-amber-600 mb-2">
-              {report.score} / {report.total}
+            <div className="relative w-32 h-32 mx-auto mb-4">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-amber-200"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-amber-500"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray={`${report.percentage}, 100`}
+                  strokeLinecap="round"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-3xl font-bold text-amber-700">{report.score}/{report.total}</div>
+                <div className="text-amber-600 text-xs">{report.percentage}%</div>
+              </div>
             </div>
-            <div className="text-amber-800 text-sm mb-3">理解正确数</div>
             <div className="text-3xl mb-2">{report.stage.icon}</div>
             <div className="text-lg font-semibold text-amber-900">
               {report.stage.title}
             </div>
             <div className="text-amber-700 text-sm mt-1">{report.stage.description}</div>
-            <div className="mt-3 text-amber-700 text-sm">
-              理解度：{report.percentage}%
-            </div>
           </div>
 
           {/* 觉察时刻 */}
@@ -224,7 +243,7 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
           {/* 觉察金句 */}
           <div className="bg-amber-50/80 rounded-xl p-4 mb-6 text-center">
             <p className="text-amber-700 text-sm italic">
-              "{randomInsight}"
+              "{selectedInsight}"
             </p>
           </div>
 

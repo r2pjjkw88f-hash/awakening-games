@@ -110,11 +110,31 @@ export function SOSGame({ onBack }: { onBack: () => void }) {
             <h2 className="text-xl font-bold text-white mb-2">觉察报告</h2>
           </div>
 
-          {/* 分数卡片 */}
+          {/* 分数卡片 - 进度环 */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6 text-center">
-            <p className="text-white/60 text-sm mb-2">你的觉察分数</p>
-            <div className="text-5xl font-bold text-white mb-2">
-              {report.score} <span className="text-2xl text-white/60">/ {report.maxScore}</span>
+            <div className="relative w-32 h-32 mx-auto mb-4">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-white/20"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-purple-400"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray={`${Math.round((report.score / report.maxScore) * 100)}, 100`}
+                  strokeLinecap="round"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-3xl font-bold text-white">{report.score}/{report.maxScore}</div>
+                <div className="text-white/60 text-xs">{Math.round((report.score / report.maxScore) * 100)}%</div>
+              </div>
             </div>
             <p className="text-purple-300 text-lg">{report.awarenessLevel}</p>
           </div>
