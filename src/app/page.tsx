@@ -6,8 +6,9 @@ import { GameContainer } from '@/components/game/container';
 import { ParentChildGame } from '@/components/game/parent-child-game';
 import { ListenGame } from '@/components/game/listen-game';
 import { SOSGame } from '@/components/game/sos-game';
+import { EmotionGame } from '@/components/game/emotion-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -176,6 +177,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 情绪地图游戏 */}
+            <button
+              onClick={() => onSelect('emotion')}
+              className="w-full text-left p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/20 hover:border-amber-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🗺️</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-amber-300 transition-colors">
+                    情绪地图：父母的情绪，是理解孩子的地图
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    孩子的行为是他们内心的语言，父母的情绪是理解他们的线索。读懂情绪背后的信号，看见孩子真正的需要。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">5关</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">情绪解读</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">觉察报告</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -217,6 +244,10 @@ export default function Home() {
 
   if (gameType === 'sos') {
     return <SOSGame onBack={handleBack} />;
+  }
+
+  if (gameType === 'emotion') {
+    return <EmotionGame onBack={handleBack} />;
   }
 
   return null;
