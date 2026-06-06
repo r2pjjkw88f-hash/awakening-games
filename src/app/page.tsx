@@ -8,8 +8,9 @@ import { ListenGame } from '@/components/game/listen-game';
 import { SOSGame } from '@/components/game/sos-game';
 import { EmotionGame } from '@/components/game/emotion-game';
 import { ParentTypeGame } from '@/components/game/parent-type-game';
+import { BehaviorGame } from '@/components/game/behavior-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -230,6 +231,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 偏差行为识别游戏 */}
+            <button
+              onClick={() => onSelect('behavior')}
+              className="w-full text-left p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/20 hover:border-purple-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🔍</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-purple-300 transition-colors">
+                    偏差行为识别：四种严重程度
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    所有偏差行为，本质都不是攻击，而是没有被满足的需求。学习识别行为类型和严重程度，看见孩子真正的需要。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">8关</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">类型识别</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">程度判断</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -279,6 +306,10 @@ export default function Home() {
 
   if (gameType === 'parent-type') {
     return <ParentTypeGame onBack={handleBack} />;
+  }
+
+  if (gameType === 'behavior') {
+    return <BehaviorGame onBack={handleBack} />;
   }
 
   return null;
