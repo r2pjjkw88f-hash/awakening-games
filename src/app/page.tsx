@@ -11,9 +11,10 @@ import { ParentTypeGame } from '@/components/game/parent-type-game';
 import { BehaviorGame } from '@/components/game/behavior-game';
 import AwakeningJourneyGame from '@/components/game/awakening-journey-game';
 import BelongingGame from '@/components/game/belonging-game';
+import LastFoodGame from '@/components/game/last-food-game';
 import { MusicButton } from '@/components/game/MusicButton';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging' | 'last-food';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -312,6 +313,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 最后的食物游戏 */}
+            <button
+              onClick={() => onSelect('last-food')}
+              className="w-full text-left p-5 bg-gradient-to-r from-amber-500/20 to-red-500/20 backdrop-blur-md rounded-2xl border border-amber-400/30 hover:from-amber-500/30 hover:to-red-500/30 hover:border-amber-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🍖</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-amber-300 transition-colors">
+                    最后的食物：动物性觉察
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    10人6份食物，生存游戏开始。你会如何选择？觉察自己的动物性、社会性、人性，看见完整的自己。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-amber-300/60 bg-amber-500/20 px-2 py-1 rounded">多轮制</span>
+                    <span className="text-xs text-amber-300/60 bg-amber-500/20 px-2 py-1 rounded">隐藏任务</span>
+                    <span className="text-xs text-amber-300/60 bg-amber-500/20 px-2 py-1 rounded">觉察报告</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -330,7 +357,7 @@ export default function Home() {
   // 监听URL hash，支持直接链接访问特定游戏
   useEffect(() => {
     const hash = window.location.hash.slice(1); // 移除 # 号
-    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey', 'belonging'].includes(hash)) {
+    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey', 'belonging', 'last-food'].includes(hash)) {
       setGameType(hash as GameType);
     }
   }, []);
@@ -358,6 +385,7 @@ export default function Home() {
       {gameType === 'behavior' && <BehaviorGame onBack={handleBack} />}
       {gameType === 'awakening-journey' && <AwakeningJourneyGame />}
       {gameType === 'belonging' && <BelongingGame onBack={handleBack} />}
+      {gameType === 'last-food' && <LastFoodGame onBack={handleBack} />}
     </>
   );
 }
