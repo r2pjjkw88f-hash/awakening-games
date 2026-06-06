@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { emotionLevels, generateEmotionReport, emotionInsights, EmotionChoice } from '@/lib/emotion-data';
+import { emotionMapLevels, fourSteps, coreBelief, closingMessage, EmotionMapLevel } from '@/lib/emotion-map-data';
 
 type GameState = 'start' | 'playing' | 'feedback' | 'result';
 
@@ -9,6 +9,44 @@ interface ChoiceRecord {
   levelId: number;
   choiceIndex: number;
   isCorrect: boolean;
+}
+
+// 进度环组件
+function ProgressRing({ progress, size = 120, strokeWidth = 8 }: { progress: number; size?: number; strokeWidth?: number }) {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const offset = circumference - (progress / 100) * circumference;
+  
+  return (
+    <svg width={size} height={size} className="transform -rotate-90">
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth={strokeWidth}
+        fill="none"
+      />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        stroke="url(#progressGradient)"
+        strokeWidth={strokeWidth}
+        fill="none"
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        strokeLinecap="round"
+        className="transition-all duration-1000 ease-out"
+      />
+      <defs>
+        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#e8b4b8" />
+          <stop offset="100%" stopColor="#c9b8d4" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
 }
 
 export function EmotionGame({ onBack }: { onBack?: () => void }) {
@@ -22,7 +60,7 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
   const [isTyping, setIsTyping] = useState(false);
   const typewriterRef = useRef<NodeJS.Timeout | null>(null);
 
-  const level = emotionLevels[currentLevel];
+  const level = emotionMapLevels[currentLevel];
 
   // 打字机效果
   const startTypewriter = useCallback((text: string) => {
@@ -84,12 +122,13 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
       setTotalPoints(prev => prev + 1);
     }
     
+    startTypewriter(choice.feedback);
     setGameState('feedback');
-  }, [selectedChoice, level]);
+  }, [selectedChoice, level, startTypewriter]);
 
   // 下一关
   const handleNext = useCallback(() => {
-    if (currentLevel < emotionLevels.length - 1) {
+    if (currentLevel < emotionMapLevels.length - 1) {
       setCurrentLevel(prev => prev + 1);
       setSelectedChoice(null);
       setGameState('playing');
@@ -109,166 +148,219 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
   }, []);
 
   // 开始页面
-  if (!gameStarted) {
+  if (!gameStarted || gameState === 'start') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, #f5e6d3 0%, #e8d4c4 50%, #d4c4b0 100%)'
-        }}>
-        
-        <div className="text-center mb-8 relative z-10">
-          <p className="text-sm text-amber-700 mb-2">此刻·花开</p>
-          <h1 className="text-2xl font-bold text-amber-900 mb-4">
-            父母的情绪，<br/>是理解孩子的地图
-          </h1>
-          <p className="text-amber-800 text-sm mb-2">
-            孩子的行为，是他们内心的语言
-          </p>
-          <p className="text-amber-800 text-sm">
-            父母的情绪，是理解他们的线索
-          </p>
-        </div>
-
-        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-sm w-full relative z-10">
-          <h3 className="font-semibold text-amber-900 mb-3 text-center">💗 游戏内容</h3>
-          <div className="space-y-2 text-sm text-amber-800">
-            <p>• 5个情绪关卡，学习读懂孩子</p>
-            <p>• 从父母的情绪出发，理解孩子需求</p>
-            <p>• 学会"理解四步法"</p>
-            <p>• 游戏结束生成专属觉察报告</p>
-          </div>
-        </div>
-
-        <button
-          onClick={handleStart}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:scale-105 relative z-10"
-        >
-          开始理解之旅 💗
-        </button>
-
+      <div className="min-h-screen bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625] text-white flex flex-col items-center justify-center p-6">
+        {/* 返回按钮 */}
         {onBack && (
           <button
             onClick={onBack}
-            className="mt-4 text-amber-700 hover:text-amber-900 text-sm relative z-10"
+            className="absolute top-4 left-4 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
           >
-            ← 返回游戏列表
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            返回
           </button>
         )}
+        
+        <div className="max-w-md w-full text-center space-y-6">
+          <div className="text-4xl mb-2">🗺️</div>
+          <h1 className="text-2xl font-bold text-[#e8b4b8]">父母的情绪</h1>
+          <h2 className="text-xl text-[#c9b8d4]">是理解孩子的地图</h2>
+          
+          <p className="text-white/80 text-sm leading-relaxed">
+            孩子的行为，是他们内心的语言<br/>
+            父母的情绪，是理解他们的线索
+          </p>
+
+          {/* 理解的四步法 */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 space-y-3 mt-6">
+            <h3 className="text-[#e8b4b8] font-medium">💡 理解的四步法</h3>
+            {fourSteps.map((step) => (
+              <div key={step.step} className="flex items-start gap-3 text-left">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#e8b4b8]/20 flex items-center justify-center text-xs text-[#e8b4b8]">
+                  {step.step}
+                </span>
+                <div>
+                  <p className="text-white/90 text-sm font-medium">{step.title}</p>
+                  <p className="text-white/60 text-xs">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-white/60 text-xs mt-4">
+            读懂情绪背后的信号，才能看见孩子真正的需要
+          </p>
+
+          <button
+            onClick={handleStart}
+            className="w-full py-3 bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] text-[#1a1625] font-medium rounded-full hover:opacity-90 transition-opacity mt-6"
+          >
+            开始觉察之旅
+          </button>
+        </div>
       </div>
     );
   }
 
   // 结果页面
   if (gameState === 'result') {
-    const report = generateEmotionReport(totalPoints, choices);
-    // 使用分数取模，避免渲染中使用随机数
-    const insightIndex = totalPoints % emotionInsights.length;
-    const selectedInsight = emotionInsights[insightIndex];
+    const totalLevels = emotionMapLevels.length;
+    const percentage = Math.round((totalPoints / totalLevels) * 100);
     
+    let stage = '';
+    let stageColor = '';
+    let advice = '';
+    
+    if (percentage >= 80) {
+      stage = '深度觉察者';
+      stageColor = 'text-[#e8b4b8]';
+      advice = '你已经能够敏锐地捕捉情绪背后的信号，继续用这份觉察力滋养亲子关系。';
+    } else if (percentage >= 60) {
+      stage = '成长中的父母';
+      stageColor = 'text-[#c9b8d4]';
+      advice = '你正在学会读懂情绪这张地图，多练习会越来越熟练。';
+    } else if (percentage >= 40) {
+      stage = '探索者';
+      stageColor = 'text-amber-300';
+      advice = '觉察的大门已经打开，继续学习看见孩子行为背后的需求。';
+    } else {
+      stage = '初学者';
+      stageColor = 'text-white/70';
+      advice = '每个父母都是从这里开始的，慢慢来，觉察力是可以培养的。';
+    }
+
     return (
-      <div className="min-h-screen p-6 relative overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, #f5e6d3 0%, #e8d4c4 50%, #d4c4b0 100%)'
-        }}>
-        
-        <div className="max-w-md mx-auto">
-          {/* 标题 */}
-          <div className="text-center mb-6">
-            <p className="text-amber-700 text-sm mb-2">此刻·花开</p>
-            <h2 className="text-xl font-bold text-amber-900">你的情绪觉察报告</h2>
+      <div className="min-h-screen bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625] text-white flex flex-col items-center justify-center p-6">
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="absolute top-4 left-4 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            返回
+          </button>
+        )}
+
+        <div className="max-w-md w-full text-center space-y-6">
+          <h1 className="text-2xl font-bold text-[#e8b4b8]">觉察报告</h1>
+          
+          {/* 分数展示 */}
+          <div className="relative flex items-center justify-center">
+            <ProgressRing progress={percentage} size={140} strokeWidth={10} />
+            <div className="absolute flex flex-col items-center">
+              <span className="text-4xl font-bold text-white">{totalPoints}</span>
+              <span className="text-white/60 text-sm">/ {totalLevels}</span>
+              <span className="text-[#e8b4b8] text-xs mt-1">{percentage}%</span>
+            </div>
           </div>
 
-          {/* 分数卡片 - 进度环 */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-4 text-center">
-            <div className="relative w-32 h-32 mx-auto mb-4">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                <path
-                  className="text-amber-200"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  fill="none"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <path
-                  className="text-amber-500"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeDasharray={`${report.percentage}, 100`}
-                  strokeLinecap="round"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-3xl font-bold text-amber-700">{report.score}/{report.total}</div>
-                <div className="text-amber-600 text-xs">{report.percentage}%</div>
-              </div>
-            </div>
-            <div className="text-3xl mb-2">{report.stage.icon}</div>
-            <div className="text-lg font-semibold text-amber-900">
-              {report.stage.title}
-            </div>
-            <div className="text-amber-700 text-sm mt-1">{report.stage.description}</div>
+          <p className={`text-lg font-medium ${stageColor}`}>{stage}</p>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 space-y-3">
+            <p className="text-white/80 text-sm leading-relaxed">{advice}</p>
           </div>
 
-          {/* 觉察时刻 */}
-          {report.insights.length > 0 && (
-            <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 mb-4">
-              <h3 className="font-semibold text-amber-900 mb-3">✨ 你的觉察时刻</h3>
-              <div className="space-y-2">
-                {report.insights.map((insight, index) => (
-                  <p key={index} className="text-sm text-amber-800">• {insight}</p>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 核心洞察 */}
-          <div className="bg-amber-100/80 rounded-xl p-4 mb-4">
-            <p className="text-amber-900 text-sm leading-relaxed">
-              情绪没有对错，每一种情绪背后，都是孩子在用自己的方式表达需求和感受。
+          {/* 核心信念 */}
+          <div className="bg-white/5 rounded-xl p-4 mt-4">
+            <p className="text-white/70 text-sm italic">
+              "{coreBelief}"
             </p>
           </div>
 
-          {/* 成长建议 */}
-          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 mb-4">
-            <h3 className="font-semibold text-amber-900 mb-3">💡 成长建议</h3>
-            <div className="space-y-2">
-              {report.suggestions.map((suggestion, index) => (
-                <p key={index} className="text-sm text-amber-800">{suggestion}</p>
-              ))}
-            </div>
-          </div>
+          {/* 结尾语 */}
+          <p className="text-white/60 text-xs mt-4">
+            {closingMessage}
+          </p>
 
-          {/* 觉察金句 */}
-          <div className="bg-amber-50/80 rounded-xl p-4 mb-6 text-center">
-            <p className="text-amber-700 text-sm italic">
-              "{selectedInsight}"
-            </p>
-          </div>
+          {/* 落款 */}
+          <p className="text-white/40 text-xs mt-6">
+            此刻花开 · 筱涵
+          </p>
 
-          {/* 按钮 */}
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-6">
             <button
               onClick={handleRestart}
-              className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-full font-semibold transition-all"
+              className="flex-1 py-3 border border-white/30 text-white rounded-full hover:bg-white/10 transition-colors"
             >
               重新开始
             </button>
             {onBack && (
               <button
                 onClick={onBack}
-                className="flex-1 bg-white/60 hover:bg-white/80 text-amber-800 py-3 rounded-full font-semibold transition-all"
+                className="flex-1 py-3 bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] text-[#1a1625] font-medium rounded-full hover:opacity-90 transition-opacity"
               >
-                返回列表
+                返回首页
               </button>
             )}
           </div>
-          
-          {/* 落款 */}
-          <div className="text-center mt-6 text-amber-700/50 text-xs">
-            此刻花开 · 筱涵
+        </div>
+      </div>
+    );
+  }
+
+  // 反馈页面
+  if (gameState === 'feedback') {
+    const choice = level.choices[selectedChoice!];
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625] text-white flex flex-col p-6">
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="absolute top-4 left-4 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            返回
+          </button>
+        )}
+
+        <div className="flex-1 flex flex-col items-center justify-center max-w-md mx-auto w-full space-y-6">
+          {/* 进度 */}
+          <div className="text-white/50 text-sm">
+            {currentLevel + 1} / {emotionMapLevels.length}
           </div>
+
+          {/* 结果图标 */}
+          <div className={`text-6xl ${choice.isCorrect ? '' : 'opacity-70'}`}>
+            {choice.isCorrect ? '✨' : '💭'}
+          </div>
+
+          {/* 反馈文字 */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 w-full">
+            <p className="text-white/90 text-center leading-relaxed">
+              {displayedText}
+              {isTyping && <span className="animate-pulse">|</span>}
+            </p>
+          </div>
+
+          {/* 正确答案展示 */}
+          {choice.isCorrect && (
+            <div className="w-full space-y-3">
+              <div className="bg-white/5 rounded-lg p-3">
+                <p className="text-[#e8b4b8] text-xs mb-1">孩子内心在说</p>
+                <p className="text-white/80 text-sm">"{level.childInnerVoice}"</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3">
+                <p className="text-[#c9b8d4] text-xs mb-1">孩子的真正需求</p>
+                <p className="text-white/80 text-sm">{level.childNeedIcon} {level.childNeed}</p>
+              </div>
+            </div>
+          )}
+
+          {/* 下一关按钮 */}
+          <button
+            onClick={handleNext}
+            className="w-full py-3 bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] text-[#1a1625] font-medium rounded-full hover:opacity-90 transition-opacity mt-4"
+          >
+            {currentLevel < emotionMapLevels.length - 1 ? '继续觉察' : '查看报告'}
+          </button>
         </div>
       </div>
     );
@@ -276,131 +368,82 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
 
   // 游戏页面
   return (
-    <div className="min-h-screen p-4 relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #f5e6d3 0%, #e8d4c4 50%, #d4c4b0 100%)'
-      }}>
-      
-      <div className="max-w-md mx-auto">
-        {/* 进度 */}
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-amber-700 text-sm">
-            关卡 {currentLevel + 1}/{emotionLevels.length}
-          </span>
-          <span className="text-amber-700 text-sm">
-            {level.level}
-          </span>
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625] text-white flex flex-col p-6">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-4 left-4 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          返回
+        </button>
+      )}
+
+      {/* 进度条 */}
+      <div className="mt-12 mb-4">
+        <div className="flex justify-between text-white/50 text-xs mb-2">
+          <span>第 {currentLevel + 1} 关</span>
+          <span>{emotionMapLevels.length} 关</span>
         </div>
-        
-        {/* 进度条 */}
-        <div className="h-2 bg-amber-200 rounded-full mb-6 overflow-hidden">
-          <div 
-            className="h-full bg-amber-500 rounded-full transition-all duration-500"
-            style={{ width: `${((currentLevel + 1) / emotionLevels.length) * 100}%` }}
+        <div className="h-1 bg-white/20 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-[#e8b4b8] to-[#c9b8d4] transition-all duration-300"
+            style={{ width: `${((currentLevel + 1) / emotionMapLevels.length) * 100}%` }}
           />
         </div>
+      </div>
 
-        {/* 情绪标识 */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
+      <div className="flex-1 flex flex-col max-w-md mx-auto w-full">
+        {/* 情绪标签 */}
+        <div className="text-center mb-4">
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full">
             <span className="text-2xl">{level.emotionIcon}</span>
-            <h2 className="font-bold text-amber-900">{level.title}</h2>
-          </div>
-          <p className="text-amber-700 text-sm">你的感受：{level.parentFeeling}</p>
+            <span className="text-white font-medium">当你感到{level.emotion}</span>
+          </span>
         </div>
 
         {/* 场景描述 */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 mb-4">
-          <p className="text-amber-900 leading-relaxed">{level.scenario}</p>
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 mb-4">
+          <p className="text-white/90 text-sm leading-relaxed">{level.scenario}</p>
         </div>
 
-        {/* 选择或反馈 */}
-        {gameState === 'playing' && (
-          <div className="space-y-3">
-            <p className="text-amber-800 text-sm font-medium text-center mb-2">
-              你觉得孩子想要表达什么？
-            </p>
-            {level.choices.map((choice: EmotionChoice, index: number) => (
-              <button
-                key={index}
-                onClick={() => handleChoice(index)}
-                className="w-full bg-white/70 hover:bg-white/90 backdrop-blur-sm text-amber-900 p-4 rounded-xl text-left transition-all hover:shadow-md"
-              >
-                {choice.text}
-              </button>
+        {/* 孩子行为提示 */}
+        <div className="bg-white/5 rounded-lg p-3 mb-4">
+          <p className="text-[#e8b4b8] text-xs mb-2">孩子可能的行为表现：</p>
+          <div className="flex flex-wrap gap-2">
+            {level.childBehaviors.map((behavior, idx) => (
+              <span key={idx} className="text-xs text-white/70 bg-white/10 px-2 py-1 rounded">
+                {behavior}
+              </span>
             ))}
           </div>
-        )}
+        </div>
 
-        {gameState === 'feedback' && selectedChoice !== null && (
-          <div className="space-y-4">
-            {/* 反馈 */}
-            <div className={`rounded-xl p-4 ${
-              level.choices[selectedChoice].isCorrect 
-                ? 'bg-green-100/80' 
-                : 'bg-orange-100/80'
-            }`}>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xl">
-                  {level.choices[selectedChoice].isCorrect ? '✅' : '💡'}
-                </span>
-                <span className="font-semibold text-amber-900">
-                  {level.choices[selectedChoice].isCorrect ? '理解正确！' : '换个角度看看'}
-                </span>
-              </div>
-              <p className="text-amber-800 text-sm">
-                {level.choices[selectedChoice].feedback}
-              </p>
-            </div>
-
-            {/* 正确理解 */}
-            {level.choices[selectedChoice].isCorrect && (
-              <div className="bg-amber-50/80 rounded-xl p-4">
-                <h4 className="font-semibold text-amber-900 mb-2">孩子的真实需求：</h4>
-                <p className="text-amber-800 text-sm mb-2">
-                  {level.childNeedIcon} {level.childNeed}
-                </p>
-                <p className="text-amber-700 text-sm italic">
-                  "{level.childInnerVoice}"
-                </p>
-              </div>
-            )}
-
-            {/* 应对方法 */}
-            <div className="bg-white/60 rounded-xl p-4">
-              <h4 className="font-semibold text-amber-900 mb-2">你可以这样做：</h4>
-              <p className="text-amber-800 text-sm">{level.parentAction}</p>
-            </div>
-
-            {/* 觉察金句 */}
-            <div className="text-center py-2">
-              <p className="text-amber-600 text-xs italic">
-                {level.insight}
-              </p>
-            </div>
-
-            {/* 继续按钮 */}
+        {/* 选择题 */}
+        <div className="space-y-3 mt-2">
+          <p className="text-white/70 text-sm text-center">孩子的行为在告诉你什么？</p>
+          {level.choices.map((choice, idx) => (
             <button
-              onClick={handleNext}
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-full font-semibold transition-all"
+              key={idx}
+              onClick={() => handleChoice(idx)}
+              disabled={selectedChoice !== null}
+              className={`w-full p-3 text-left rounded-xl transition-all ${
+                selectedChoice === null
+                  ? 'bg-white/10 hover:bg-white/20 border border-white/20'
+                  : selectedChoice === idx
+                  ? choice.isCorrect
+                    ? 'bg-[#e8b4b8]/20 border-2 border-[#e8b4b8]'
+                    : 'bg-red-500/20 border-2 border-red-400'
+                  : 'bg-white/5 opacity-50'
+              }`}
             >
-              {currentLevel < emotionLevels.length - 1 ? '继续理解之旅 →' : '查看觉察报告'}
+              <p className="text-white/90 text-sm">{choice.text}</p>
             </button>
-          </div>
-        )}
-
-        {/* 返回按钮 */}
-        {onBack && gameState === 'playing' && (
-          <button
-            onClick={onBack}
-            className="w-full mt-4 text-amber-600 hover:text-amber-800 text-sm"
-          >
-            ← 返回游戏列表
-          </button>
-        )}
+          ))}
+        </div>
       </div>
     </div>
   );
 }
-
-export default EmotionGame;
