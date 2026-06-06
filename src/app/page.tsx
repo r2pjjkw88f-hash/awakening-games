@@ -9,8 +9,9 @@ import { SOSGame } from '@/components/game/sos-game';
 import { EmotionGame } from '@/components/game/emotion-game';
 import { ParentTypeGame } from '@/components/game/parent-type-game';
 import { BehaviorGame } from '@/components/game/behavior-game';
+import AwakeningJourneyGame from '@/components/game/awakening-journey-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -76,6 +77,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
 
           {/* 游戏卡片 */}
           <div className="space-y-4">
+            {/* 觉醒之旅增强版 */}
+            <button
+              onClick={() => onSelect('awakening-journey')}
+              className="w-full text-left p-5 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md rounded-2xl border border-pink-400/30 hover:from-pink-500/30 hover:to-purple-500/30 hover:border-pink-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🌸</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-pink-300 transition-colors">
+                    亲密关系：觉醒之旅 ✨增强版
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    RPG风格觉察游戏！经验值系统、隐藏任务、道具升级。经历六关灵魂旅程，找到通往觉醒的门。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-pink-300/80 bg-pink-500/20 px-2 py-1 rounded">⭐ XP系统</span>
+                    <span className="text-xs text-yellow-300/80 bg-yellow-500/20 px-2 py-1 rounded">🔮 隐藏任务</span>
+                    <span className="text-xs text-purple-300/80 bg-purple-500/20 px-2 py-1 rounded">🎁 道具升级</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
+
             {/* 亲密关系游戏 */}
             <button
               onClick={() => onSelect('relationship')}
@@ -275,7 +302,7 @@ export default function Home() {
   // 监听URL hash，支持直接链接访问特定游戏
   useEffect(() => {
     const hash = window.location.hash.slice(1); // 移除 # 号
-    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior'].includes(hash)) {
+    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey'].includes(hash)) {
       setGameType(hash as GameType);
     }
   }, []);
@@ -320,6 +347,10 @@ export default function Home() {
 
   if (gameType === 'behavior') {
     return <BehaviorGame onBack={handleBack} />;
+  }
+
+  if (gameType === 'awakening-journey') {
+    return <AwakeningJourneyGame />;
   }
 
   return null;
