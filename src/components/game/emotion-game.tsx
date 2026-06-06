@@ -165,6 +165,11 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
         )}
         
         <div className="max-w-md w-full text-center space-y-6">
+          {/* 游戏名称 */}
+          <div>
+            <h1 className="text-xl font-medium text-[#e8b4b8]">🗺️ 情绪地图</h1>
+            <p className="text-xs text-white/50 mt-1">觉察报告</p>
+          </div>
           <div className="text-4xl mb-2">🗺️</div>
           <h1 className="text-2xl font-bold text-[#e8b4b8]">父母的情绪</h1>
           <h2 className="text-xl text-[#c9b8d4]">是理解孩子的地图</h2>
@@ -321,6 +326,11 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
           </button>
         )}
 
+        {/* 游戏名称 */}
+        <div className="mt-12 mb-4 text-center">
+          <h1 className="text-lg font-medium text-[#e8b4b8]">🗺️ 情绪地图</h1>
+        </div>
+
         <div className="flex-1 flex flex-col items-center justify-center max-w-md mx-auto w-full space-y-6">
           {/* 进度 */}
           <div className="text-white/50 text-sm">
@@ -381,8 +391,14 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
         </button>
       )}
 
+      {/* 游戏名称 */}
+      <div className="mt-12 mb-2 text-center">
+        <h1 className="text-lg font-medium text-[#e8b4b8]">🗺️ 情绪地图</h1>
+        <p className="text-xs text-white/50">父母的情绪，是理解孩子的地图</p>
+      </div>
+
       {/* 进度条 */}
-      <div className="mt-12 mb-4">
+      <div className="mb-4">
         <div className="flex justify-between text-white/50 text-xs mb-2">
           <span>第 {currentLevel + 1} 关</span>
           <span>{emotionMapLevels.length} 关</span>
