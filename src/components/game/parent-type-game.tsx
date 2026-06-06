@@ -289,32 +289,69 @@ function ResultScreen({
 
       {/* 标题 */}
       <div className="text-center pt-12 pb-4">
-        <span className="text-5xl mb-3 block">{report.stage.icon}</span>
+        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-green-400 to-purple-400 flex items-center justify-center shadow-xl mb-4">
+          <span className="text-3xl">{report.stage.icon}</span>
+        </div>
         <h1 className="text-xl font-bold text-white mb-2 drop-shadow-lg">
-          你的父母类型报告
+          父母类型报告
         </h1>
-        <div className="text-3xl font-bold text-white/90">
-          {report.stage.title}
-        </div>
       </div>
 
-      {/* 分数展示 */}
-      <div className="flex justify-center mb-6">
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center">
-          <div className="text-4xl font-bold text-white mb-1">
-            {report.score}/{report.total}
+      {/* 分数展示 - 大号醒目 */}
+      <div className="bg-gradient-to-br from-green-500/30 to-purple-500/30 backdrop-blur-md rounded-2xl p-6 mb-5 border border-white/30 shadow-xl text-center">
+        <p className="text-white/80 text-sm mb-2">你的智慧型分数</p>
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <span className="text-5xl font-bold text-white drop-shadow-lg">{report.score}</span>
+          <span className="text-2xl text-white/60">/ {report.total}</span>
+        </div>
+        
+        {/* 进度环 */}
+        <div className="flex items-center justify-center gap-4">
+          <div className="relative w-16 h-16">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+              <path
+                className="text-white/20"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                className="text-green-400"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+                strokeDasharray={`${report.percentage}, 100`}
+                strokeLinecap="round"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">{report.percentage}%</span>
           </div>
-          <div className="text-white/60 text-sm">智慧型回应</div>
-          <div className="text-white/40 text-xs mt-1">{report.percentage}%</div>
+          <div className="text-left">
+            <span className="text-2xl">{report.stage.icon}</span>
+            <p className="text-white font-medium">{report.stage.title}</p>
+            <p className="text-white/60 text-xs">{report.stage.description}</p>
+          </div>
         </div>
       </div>
 
-      {/* 阶段说明 */}
-      <div
-        className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 mb-4 border border-white/20 text-center"
-        style={{ borderColor: report.stage.color + '40' }}
-      >
-        <p className="text-white/80 text-sm">{report.stage.description}</p>
+      {/* 核心数据卡片 */}
+      <div className="grid grid-cols-2 gap-3 mb-5">
+        <div className="bg-green-500/20 backdrop-blur-md rounded-xl p-4 text-center border border-green-400/30">
+          <div className="w-10 h-10 mx-auto rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mb-2">
+            <span className="text-lg">🌸</span>
+          </div>
+          <p className="text-2xl font-bold text-white">{report.wiseCount}</p>
+          <p className="text-[10px] text-white/60">智慧型回应</p>
+        </div>
+        <div className="bg-red-500/20 backdrop-blur-md rounded-xl p-4 text-center border border-red-400/30">
+          <div className="w-10 h-10 mx-auto rounded-full bg-gradient-to-br from-red-400 to-orange-500 flex items-center justify-center mb-2">
+            <span className="text-lg">💨</span>
+          </div>
+          <p className="text-2xl font-bold text-white">{report.emotionalCount}</p>
+          <p className="text-[10px] text-white/60">情绪化回应</p>
+        </div>
       </div>
 
       {/* 洞察 */}
@@ -346,18 +383,6 @@ function ResultScreen({
           </ul>
         </div>
       )}
-
-      {/* 对比展示 */}
-      <div className="grid grid-cols-2 gap-2 mb-6">
-        <div className="bg-red-500/10 backdrop-blur-sm rounded-xl p-3 border border-red-400/20">
-          <div className="text-xs text-red-300 mb-1">情绪化回应</div>
-          <div className="text-lg font-bold text-red-400">{report.emotionalCount}次</div>
-        </div>
-        <div className="bg-green-500/10 backdrop-blur-sm rounded-xl p-3 border border-green-400/20">
-          <div className="text-xs text-green-300 mb-1">智慧型回应</div>
-          <div className="text-lg font-bold text-green-400">{report.wiseCount}次</div>
-        </div>
-      </div>
 
       {/* 金句 */}
       <div className="bg-gradient-to-r from-rose-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/10">
