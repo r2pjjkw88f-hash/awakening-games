@@ -242,7 +242,7 @@ export default function AwakeningJourneyGame() {
         </div>
 
         {/* 关卡标题 */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
           <div className="text-white/60 text-sm mb-1">
             第 {currentLevel.id} 关
           </div>
@@ -257,6 +257,18 @@ export default function AwakeningJourneyGame() {
             </div>
           </div>
         </div>
+
+        {/* 场景图片 */}
+        {currentLevel.sceneImage && (
+          <div className="relative w-full h-40 mb-4 rounded-2xl overflow-hidden">
+            <img 
+              src={currentLevel.sceneImage} 
+              alt={currentLevel.levelName}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1a1625] via-transparent to-transparent" />
+          </div>
+        )}
 
         {/* 血量条 */}
         <div className="flex items-center justify-center gap-3 mb-4">
