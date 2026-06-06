@@ -7,8 +7,9 @@ import { ParentChildGame } from '@/components/game/parent-child-game';
 import { ListenGame } from '@/components/game/listen-game';
 import { SOSGame } from '@/components/game/sos-game';
 import { EmotionGame } from '@/components/game/emotion-game';
+import { ParentTypeGame } from '@/components/game/parent-type-game';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -203,6 +204,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 父母类型测试游戏 */}
+            <button
+              onClick={() => onSelect('parent-type')}
+              className="w-full text-left p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/20 hover:border-green-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">👨‍👩‍👧</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-green-300 transition-colors">
+                    父母类型测试：情绪化 VS 智慧型
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    6个育儿场景，测试你的养育模式。发现自己是情绪化还是智慧型，学习更稳定的回应方式。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">6关</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">场景选择</span>
+                    <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">类型报告</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -248,6 +275,10 @@ export default function Home() {
 
   if (gameType === 'emotion') {
     return <EmotionGame onBack={handleBack} />;
+  }
+
+  if (gameType === 'parent-type') {
+    return <ParentTypeGame onBack={handleBack} />;
   }
 
   return null;
