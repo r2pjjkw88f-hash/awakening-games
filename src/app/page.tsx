@@ -11,6 +11,7 @@ import { ParentTypeGame } from '@/components/game/parent-type-game';
 import { BehaviorGame } from '@/components/game/behavior-game';
 import AwakeningJourneyGame from '@/components/game/awakening-journey-game';
 import BelongingGame from '@/components/game/belonging-game';
+import { MusicButton } from '@/components/game/MusicButton';
 
 type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging';
 
@@ -344,45 +345,19 @@ export default function Home() {
     window.location.hash = ''; // 清除hash
   };
 
-  if (gameType === 'select') {
-    return <GameSelect onSelect={handleSelectGame} />;
-  }
-
-  if (gameType === 'relationship') {
-    return <GameContainer onBack={handleBack} />;
-  }
-
-  if (gameType === 'parent-child') {
-    return <ParentChildGame onBack={handleBack} />;
-  }
-
-  if (gameType === 'listen') {
-    return <ListenGame />;
-  }
-
-  if (gameType === 'sos') {
-    return <SOSGame onBack={handleBack} />;
-  }
-
-  if (gameType === 'emotion') {
-    return <EmotionGame onBack={handleBack} />;
-  }
-
-  if (gameType === 'parent-type') {
-    return <ParentTypeGame onBack={handleBack} />;
-  }
-
-  if (gameType === 'behavior') {
-    return <BehaviorGame onBack={handleBack} />;
-  }
-
-  if (gameType === 'awakening-journey') {
-    return <AwakeningJourneyGame />;
-  }
-
-  if (gameType === 'belonging') {
-    return <BelongingGame onBack={handleBack} />;
-  }
-
-  return null;
+  return (
+    <>
+      <MusicButton />
+      {gameType === 'select' && <GameSelect onSelect={handleSelectGame} />}
+      {gameType === 'relationship' && <GameContainer onBack={handleBack} />}
+      {gameType === 'parent-child' && <ParentChildGame onBack={handleBack} />}
+      {gameType === 'listen' && <ListenGame />}
+      {gameType === 'sos' && <SOSGame onBack={handleBack} />}
+      {gameType === 'emotion' && <EmotionGame onBack={handleBack} />}
+      {gameType === 'parent-type' && <ParentTypeGame onBack={handleBack} />}
+      {gameType === 'behavior' && <BehaviorGame onBack={handleBack} />}
+      {gameType === 'awakening-journey' && <AwakeningJourneyGame />}
+      {gameType === 'belonging' && <BelongingGame onBack={handleBack} />}
+    </>
+  );
 }
