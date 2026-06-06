@@ -139,6 +139,12 @@ function GameScreen({
   const [selectedChoice, setSelectedChoice] = useState<ParentChoice | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
 
+  // 当关卡变化时重置状态
+  useEffect(() => {
+    setSelectedChoice(null);
+    setShowFeedback(false);
+  }, [level.id]);
+
   const handleSelect = (choice: ParentChoice) => {
     if (selectedChoice) return;
     setSelectedChoice(choice);
@@ -178,29 +184,34 @@ function GameScreen({
 
       {/* 选择卡片 */}
       <div className="space-y-3 mb-6 flex-1">
-        {level.choices.map((choice, index) => (
-          <button
-            key={index}
-            onClick={() => handleSelect(choice)}
-            disabled={!!selectedChoice}
-            className={`w-full p-4 rounded-xl text-left transition-all ${
-              selectedChoice
-                ? choice.type === 'wise'
-                  ? 'bg-green-500/30 border-2 border-green-400'
-                  : choice === selectedChoice
-                  ? 'bg-red-500/30 border-2 border-red-400'
-                  : 'bg-white/5 border border-white/10 opacity-50'
-                : 'bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40'
-            }`}
-          >
-            <div className="flex items-start gap-3">
-              <span className={`text-xl ${selectedChoice && choice.type === 'wise' ? 'animate-bounce' : ''}`}>
-                {choice.type === 'wise' ? '🌸' : '💨'}
-              </span>
-              <p className="text-white text-sm flex-1">{choice.text}</p>
-            </div>
-          </button>
-        ))}
+        {level.choices.map((choice, index) => {
+          const isSelected = selectedChoice === choice;
+          const isWise = choice.type === 'wise';
+          
+          return (
+            <button
+              key={index}
+              onClick={() => handleSelect(choice)}
+              disabled={!!selectedChoice}
+              className={`w-full p-4 rounded-xl text-left transition-all ${
+                selectedChoice
+                  ? isSelected
+                    ? isWise
+                      ? 'bg-green-500/30 border-2 border-green-400'
+                      : 'bg-red-500/30 border-2 border-red-400'
+                    : 'bg-white/5 border border-white/10 opacity-50'
+                  : 'bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <span className={`text-xl ${isSelected && isWise ? 'animate-bounce' : ''}`}>
+                  {isWise ? '🌸' : '💨'}
+                </span>
+                <p className="text-white text-sm flex-1">{choice.text}</p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* 反馈区域 */}
