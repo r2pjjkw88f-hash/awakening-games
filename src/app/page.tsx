@@ -272,12 +272,22 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
 export default function Home() {
   const [gameType, setGameType] = useState<GameType>('select');
 
+  // 监听URL hash，支持直接链接访问特定游戏
+  useEffect(() => {
+    const hash = window.location.hash.slice(1); // 移除 # 号
+    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior'].includes(hash)) {
+      setGameType(hash as GameType);
+    }
+  }, []);
+
   const handleSelectGame = (game: GameType) => {
     setGameType(game);
+    window.location.hash = game; // 更新URL hash
   };
 
   const handleBack = () => {
     setGameType('select');
+    window.location.hash = ''; // 清除hash
   };
 
   if (gameType === 'select') {
