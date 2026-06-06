@@ -72,7 +72,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "当你看见那个孩子，疗愈就开始了。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_b68e04b8-c30b-4e74-8615-df528ca54413.jpeg"
+    sceneImage: "/scenes/belonging-1.jpeg"
   },
   {
     id: 2,
@@ -114,7 +114,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "真正的归属，是允许自己不完美。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_19866eda-fea3-4643-9e23-ff4c1f1e83a8.jpeg"
+    sceneImage: "/scenes/belonging-2.jpeg"
   },
   {
     id: 3,
@@ -156,7 +156,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "我不需要完美才值得存在。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_6761be7b-7a94-4636-9e90-4ad942766481.jpeg"
+    sceneImage: "/scenes/belonging-3.jpeg"
   },
   {
     id: 4,
@@ -198,7 +198,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "我的价值不取决于排第几。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_39ffdfdf-3f7a-4023-a81f-e6a7c435432e.jpeg"
+    sceneImage: "/scenes/belonging-4.jpeg"
   },
   {
     id: 5,
@@ -240,7 +240,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "他的情绪不等于我的价值。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_0645e6e0-a540-42e0-ba69-36b6a5f0728d.jpeg"
+    sceneImage: "/scenes/belonging-5.jpeg"
   },
   {
     id: 6,
@@ -282,7 +282,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "你可以休息了。你的存在本身就是价值。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_01c8b229-6888-4d9f-b1b0-ef3b1e526091.jpeg"
+    sceneImage: "/scenes/belonging-6.jpeg"
   },
   {
     id: 7,
@@ -324,7 +324,7 @@ export const belongingLevels: BelongingLevel[] = [
       }
     },
     quote: "真正的归属，是永远不丢下自己。",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_29d37922-a01c-4504-a206-59a4a4b30cb8.jpeg"
+    sceneImage: "/scenes/belonging-7.jpeg"
   }
 ];
 
