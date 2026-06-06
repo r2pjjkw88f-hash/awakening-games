@@ -12,9 +12,10 @@ import { BehaviorGame } from '@/components/game/behavior-game';
 import AwakeningJourneyGame from '@/components/game/awakening-journey-game';
 import BelongingGame from '@/components/game/belonging-game';
 import LastFoodGame from '@/components/game/last-food-game';
+import TreasureHuntGame from '@/components/game/treasure-hunt-game';
 import { MusicButton } from '@/components/game/MusicButton';
 
-type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging' | 'last-food';
+type GameType = 'select' | 'relationship' | 'parent-child' | 'listen' | 'sos' | 'emotion' | 'parent-type' | 'behavior' | 'awakening-journey' | 'belonging' | 'last-food' | 'treasure-hunt';
 
 // 游戏选择界面
 function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
@@ -339,6 +340,32 @@ function GameSelect({ onSelect }: { onSelect: (game: GameType) => void }) {
                 </div>
               </div>
             </button>
+
+            {/* 生命寻宝游戏 */}
+            <button
+              onClick={() => onSelect('treasure-hunt')}
+              className="w-full text-left p-5 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 backdrop-blur-md rounded-2xl border border-yellow-400/30 hover:from-yellow-500/30 hover:to-amber-500/30 hover:border-yellow-400/50 transition-all duration-300 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🗺️</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-medium text-white mb-1 group-hover:text-yellow-300 transition-colors">
+                    生命寻宝：寻找自己，认出自己
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    你以为在寻找宝藏，其实是在寻找自己。找到五个宝藏，收集隐藏卡片，认出真正的自己。
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <span className="text-xs text-yellow-300/60 bg-yellow-500/20 px-2 py-1 rounded">5关寻宝</span>
+                    <span className="text-xs text-yellow-300/60 bg-yellow-500/20 px-2 py-1 rounded">隐藏拼图</span>
+                    <span className="text-xs text-yellow-300/60 bg-yellow-500/20 px-2 py-1 rounded">冥想时刻</span>
+                  </div>
+                </div>
+                <div className="text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all">
+                  →
+                </div>
+              </div>
+            </button>
           </div>
 
           {/* 底部提示 */}
@@ -357,7 +384,7 @@ export default function Home() {
   // 监听URL hash，支持直接链接访问特定游戏
   useEffect(() => {
     const hash = window.location.hash.slice(1); // 移除 # 号
-    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey', 'belonging', 'last-food'].includes(hash)) {
+    if (hash && ['relationship', 'parent-child', 'listen', 'sos', 'emotion', 'parent-type', 'behavior', 'awakening-journey', 'belonging', 'last-food', 'treasure-hunt'].includes(hash)) {
       setGameType(hash as GameType);
     }
   }, []);
@@ -386,6 +413,7 @@ export default function Home() {
       {gameType === 'awakening-journey' && <AwakeningJourneyGame />}
       {gameType === 'belonging' && <BelongingGame onBack={handleBack} />}
       {gameType === 'last-food' && <LastFoodGame onBack={handleBack} />}
+      {gameType === 'treasure-hunt' && <TreasureHuntGame onBack={handleBack} />}
     </>
   );
 }
