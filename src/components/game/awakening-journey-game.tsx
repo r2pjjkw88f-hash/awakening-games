@@ -448,7 +448,7 @@ export default function AwakeningJourneyGame() {
 
         {/* XP展示 */}
         <div className="flex flex-col items-center mb-6">
-          <XPRing current={totalXP} max={GRAND_TOTAL_XP} size={140} />
+          <XPRing current={totalXP} max={TOTAL_BASE_XP} size={140} />
           <div className="mt-3 text-center">
             <div className="text-lg font-semibold text-white flex items-center justify-center gap-2">
               {stage.icon} {stage.stage}
