@@ -716,7 +716,12 @@ export function ResultScreen({ onRestart }: { onRestart: () => void }) {
           重新开始旅程
         </Button>
 
-        <p className="text-center text-xs text-white/50 mt-6 pb-4">
+        {/* 落款 */}
+        <p className="text-center text-xs text-white/40 mt-4">
+          此刻花开 · 筱涵
+        </p>
+
+        <p className="text-center text-xs text-white/50 mt-4 pb-4">
           欢迎来到《此刻花开》 · 未来60天，一起慢慢花开
         </p>
       </div>

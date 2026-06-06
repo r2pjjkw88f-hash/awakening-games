@@ -185,6 +185,11 @@ export function SOSGame({ onBack }: { onBack: () => void }) {
               返回列表
             </button>
           </div>
+          
+          {/* 落款 */}
+          <div className="text-center mt-6 text-white/40 text-xs">
+            此刻花开 · 筱涵
+          </div>
         </div>
       </div>
     );

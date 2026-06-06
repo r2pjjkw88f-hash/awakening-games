@@ -404,6 +404,11 @@ function ResultScreen({
       >
         返回游戏列表
       </button>
+      
+      {/* 落款 */}
+      <div className="text-center mt-6 text-white/40 text-xs">
+        此刻花开 · 筱涵
+      </div>
     </div>
   );
 }

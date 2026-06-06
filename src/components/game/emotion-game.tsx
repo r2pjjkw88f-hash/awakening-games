@@ -264,6 +264,11 @@ export function EmotionGame({ onBack }: { onBack?: () => void }) {
               </button>
             )}
           </div>
+          
+          {/* 落款 */}
+          <div className="text-center mt-6 text-amber-700/50 text-xs">
+            此刻花开 · 筱涵
+          </div>
         </div>
       </div>
     );

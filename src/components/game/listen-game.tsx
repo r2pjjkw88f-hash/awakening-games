@@ -294,7 +294,12 @@ function ResultScreen({
             重新开始
           </button>
           
-          <p className="text-xs text-white/50 mt-6">
+          {/* 落款 */}
+          <div className="text-center mt-6 text-white/40 text-xs">
+            此刻花开 · 筱涵
+          </div>
+          
+          <p className="text-xs text-white/50 mt-4">
             每一次被倾听，都是孩子内心长出力量的时刻。💜
           </p>
         </div>
