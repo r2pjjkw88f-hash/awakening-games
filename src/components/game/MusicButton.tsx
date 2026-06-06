@@ -12,7 +12,7 @@ export function MusicButton({ className = "" }: MusicButtonProps) {
 
   useEffect(() => {
     // 创建音频元素
-    audioRef.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    audioRef.current = new Audio("/music.ogg");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
 
