@@ -71,7 +71,7 @@ function FloatingParticles() {
 // 开始页面
 function StartScreen({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625]">
       <FloatingParticles />
       
       <div className="relative z-10 text-center max-w-md mx-auto">
@@ -152,7 +152,7 @@ function GameScreen({
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 relative">
+    <div className="min-h-screen flex flex-col p-4 relative bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625]">
       {/* 进度条 */}
       <div className="w-full bg-white/10 rounded-full h-2 mb-6">
         <div
@@ -267,7 +267,7 @@ function ResultScreen({
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col p-4 relative overflow-y-auto">
+    <div className="min-h-screen flex flex-col p-4 relative overflow-y-auto bg-gradient-to-b from-[#1a1625] via-[#2d2640] to-[#1a1625]">
       {/* 返回按钮 */}
       <button
         onClick={onBack}
