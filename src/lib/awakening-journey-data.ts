@@ -42,7 +42,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "影子剧场",
     theme: "看见自己把未完成的剧本投射到对方身上",
     emotion: "投射",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_ac1b147c-2e25-4da2-adcb-7f65c0267d55.jpeg",
+    sceneImage: "/scenes/awakening-1.jpeg",
     scenario: `深夜，你看着伴侣刷手机的背影，心里涌起一阵烦躁。
 
 "他从来不关心我，只顾着自己玩。"
@@ -121,7 +121,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "许愿井",
     theme: "识别并放下过度的期待",
     emotion: "期待",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_a984b8c6-e2d0-4f12-950b-f8dbaf60d2b6.jpeg",
+    sceneImage: "/scenes/awakening-2.jpeg",
     scenario: `今天是你们在一起三周年的日子。你期待了一整天——他会不会记得？会不会给你惊喜？
 
 晚上，他回到家，像往常一样坐在沙发上刷手机，完全没有提起今天是什么日子。
@@ -198,7 +198,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "废墟花园",
     theme: "接纳失望是关系的常客，不是末日",
     emotion: "失望",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_07d35649-bff3-49b5-84a6-0ff3ff0546d6.jpeg",
+    sceneImage: "/scenes/awakening-3.jpeg",
     scenario: `你已经努力了很久——努力理解他，努力包容他，努力成为更好的自己。
 
 但今天，他又说了那句让你最受伤的话。就那样轻飘飘地，把你所有的努力都否定了。
@@ -275,7 +275,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "火焰十字路口",
     theme: "不再逃避冲突，把它当作灵魂的信号",
     emotion: "冲突",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_2f802203-7def-4b45-ac39-ba7c5f2be910.jpeg",
+    sceneImage: "/scenes/awakening-4.jpeg",
     scenario: `你们又吵起来了。那些话，像机关枪一样扫射——
 
 "你从来不考虑我的感受！"
@@ -347,7 +347,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "镜厅",
     theme: "从【谁爱我】转向【我是谁】",
     emotion: "觉察",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_5bd89f0e-30a1-4cc1-9742-6ab2f11d502b.jpeg",
+    sceneImage: "/scenes/awakening-5.jpeg",
     scenario: `深夜，你一个人坐着，手机屏幕的光照在脸上。
 
 你刷着朋友圈，看到别人的甜蜜合照、旅行照片、幸福宣言。然后你想起自己的关系——那些争吵、那些失望、那些时刻。
@@ -421,7 +421,7 @@ export const awakeningJourneyLevels: LevelData[] = [
     levelName: "觉醒之门",
     theme: "矛盾不再是灾难，而是养分",
     emotion: "成长",
-    sceneImage: "https://coze-coding-project.tos.coze.site/coze_storage_7647773831091879942/image/generate_image_497e2491-1f90-4f01-a101-e98e089d0f29.jpeg",
+    sceneImage: "/scenes/awakening-6.jpeg",
     scenario: `你站在觉醒的门前。
 
 回头看，是那些争吵、失望、眼泪，是那些你曾经以为熬不过去的时刻。
